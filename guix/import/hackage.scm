@@ -117,9 +117,15 @@ version is returned."
           (#f name)
           (m (match:substring m 1)))))))
 
-(define (hackage-fetch name-version)
-  "Return the Cabal file for the package NAME-VERSION, or #f on failure.  If
-the version part is omitted from the package name, then return the latest
+(define (read-cabal-and-hash port)
+  (let-values (((port get-hash) (open-sha256-input-port port)))
+    (cons
+      (read-cabal (canonical-newline-port port))
+      (bytevector->nix-base32-string (get-hash)))))
+
+(define (hackage-fetch-and-hash name-version)
+  "Return the Cabal file and hash for the package NAME-VERSION, or #f on failure.
+If the version part is omitted from the package name, then return the latest
 version."
   (guard (c ((and (http-get-error? c)
                   (= 404 (http-get-error-code c)))
@@ -127,9 +133,17 @@ version."
     (let-values (((name version) (package-name->name+version name-version)))
       (let* ((url (hackage-cabal-url name version))
              (port (http-fetch url))
-             (result (read-cabal (canonical-newline-port port))))
+             (result (read-cabal-and-hash port)))
         (close-port port)
         result))))
+
+(define (hackage-fetch name-version)
+  "Return the Cabal file for the package NAME-VERSION, or #f on failure.  If
+the version part is omitted from the package name, then return the latest
+version."
+  (match (hackage-fetch-and-hash name-version)
+         ((cabal . hash) cabal)
+         (_              #f)))
 
 (define string->license
   ;; List of valid values from
@@ -198,15 +212,19 @@ package being processed and is used to filter references to itself."
                                    (cons own-name ghc-standard-libraries))))
           dependencies))
 
-(define* (hackage-module->sexp cabal #:key (include-test-dependencies? #t))
+(define* (hackage-module->sexp cabal cabal-hash #:key (include-test-dependencies? #t))
   "Return the `package' S-expression for a Cabal package.  CABAL is the
-representation of a Cabal file as produced by 'read-cabal'."
+representation of a Cabal file as produced by 'read-cabal'. CABAL-HASH is
+the hash of the Cabal file."
 
   (define name
     (cabal-package-name cabal))
 
   (define version
     (cabal-package-version cabal))
+
+  (define revision
+    (cabal-package-revision cabal))
   
   (define source-url
     (hackage-source-url name version))
@@ -252,9 +270,17 @@ representation of a Cabal file as produced by 'read-cabal'."
                    (list 'quasiquote inputs))))))
   
   (define (maybe-arguments)
-    (if (not include-test-dependencies?)
-        '((arguments `(#:tests? #f)))
-        '()))
+    (define testargs (if (not include-test-dependencies?)
+                       '(#:tests? #f)
+                       '()))
+    (define revargs  (if (not (string-null? revision))
+                       `(#:cabal-revision (,revision ,cabal-hash))
+                       '()))
+    (define args (append testargs revargs))
+    (if (not (nil? args))
+      (let ((qargs `(,'quasiquote ,args)))
+        `((arguments ,qargs)))
+      '()))
 
   (let ((tarball (with-store store
                    (download-to-store store source-url))))
@@ -294,13 +320,16 @@ symbol 'true' or 'false'.  The value associated with other keys has to conform
 to the Cabal file format definition.  The default value associated with the
 keys \"os\", \"arch\" and \"impl\" is \"linux\", \"x86_64\" and \"ghc\"
 respectively."
-  (let ((cabal-meta (if port
-                        (read-cabal (canonical-newline-port port))
-                        (hackage-fetch package-name))))
-    (and=> cabal-meta (compose (cut hackage-module->sexp <>
-                                    #:include-test-dependencies?
-                                    include-test-dependencies?)
-                               (cut eval-cabal <> cabal-environment)))))
+  (match
+    (if port (read-cabal-and-hash port)
+             (hackage-fetch-and-hash package-name))
+    ((cabal-meta . cabal-hash)
+     (and=> cabal-meta (compose (cut hackage-module->sexp <>
+                                     cabal-hash
+                                     #:include-test-dependencies?
+                                     include-test-dependencies?)
+                                (cut eval-cabal <> cabal-environment))))
+    (_ #f)))
 
 (define hackage->guix-package/m                   ;memoized variant
   (memoize hackage->guix-package))
