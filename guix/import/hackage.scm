@@ -327,6 +327,10 @@ symbol 'true' or 'false'.  The value associated with other keys has to conform
 to the Cabal file format definition.  The default value associated with the
 keys \"os\", \"arch\" and \"impl\" is \"linux\", \"x86_64\" and \"ghc\"
 respectively."
+  (format (current-error-port)
+    (if port "Importing haskell package from ~a~%"
+             "Importing `~a` from hackage~%")
+    package-name)
   (let-values (((cabal-meta cabal-hash)
                 (if port
                     (read-cabal-and-hash port)
