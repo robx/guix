@@ -378,12 +378,13 @@ separated by PRED."
                                     name)))
 
 (define* (recursive-import package-name repo
-                           #:key repo->guix-package guix-name
+                           #:key repo->guix-package guix-name ignore-existing?
                            #:allow-other-keys)
   "Generate a stream of package expressions for PACKAGE-NAME and all its
 dependencies."
   (define (exists? dependency)
-    (not (null? (find-packages-by-name (guix-name dependency)))))
+    (and (not ignore-existing?)
+         (not (null? (find-packages-by-name (guix-name dependency))))))
   (define initial-state (list #f (list package-name) (list)))
   (define (step state)
     (match state
