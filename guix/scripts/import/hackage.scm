@@ -59,6 +59,8 @@ version.\n"))
   (display (G_ "
   -h, --help                   display this help and exit"))
   (display (G_ "
+  -i, --ignore                 ignore existing packages on recursive import"))
+  (display (G_ "
   -r, --recursive              import packages recursively"))
   (display (G_ "
   -s, --stdin                  read from standard input"))
@@ -96,6 +98,11 @@ version.\n"))
          (option '(#\r "recursive") #f #f
                  (lambda (opt name arg result)
                    (alist-cons 'recursive #t result)))
+
+         (option '(#\i "ignore") #f #f
+                 (lambda (opt name arg result)
+                   (alist-cons 'ignore-existing? #t result)))
+
          %standard-import-options))
 
 
@@ -122,7 +129,9 @@ version.\n"))
                                   (current-input-port)
                                   #f)
                        #:cabal-environment
-                       (assoc-ref opts 'cabal-environment)))
+                       (assoc-ref opts 'cabal-environment)
+                       #:ignore-existing?
+                       (assoc-ref opts 'ignore-existing?)))
            (sexp (if (assoc-ref opts 'recursive)
                      ;; Recursive import
                      (map (match-lambda

@@ -9068,6 +9068,10 @@ associated with the keys @code{os}, @code{arch} and @code{impl} is
 Traverse the dependency graph of the given upstream package recursively
 and generate package expressions for all those packages that are not yet
 in Guix.
+@item --ignore
+@itemx -i
+When importing recursively, generate package expressions also for
+dependencies that are already in Guix.
 @end table
 
 The command below imports metadata for the latest version of the
