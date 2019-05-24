@@ -770,8 +770,6 @@ otherwise simply ignore them."
                   (_       (list (string->uri url))))))
 
   (define (fetch uri file)
-    (format #t "~%Starting download of ~a~%From ~a...~%"
-            file (uri->string uri))
     (case (uri-scheme uri)
       ((http https)
        (false-if-exception*
