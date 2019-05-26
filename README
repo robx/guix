@@ -66,6 +66,9 @@ To do so:
     new Guix to consider the store to be empty!).  We recommend to use the
     value '/var'.
 
+    On Guix System, this is '/var' by default. Note that you will need to
+    re-run the 'configure' script after updating Guix System.
+
   - Run "make", "make check", and "make install".
 
 * How It Works
