@@ -116,7 +116,7 @@ requests, and the library is intended for implementing Ajax APIs.")
 (define-public ghc-http-types
   (package
     (name "ghc-http-types")
-    (version "0.12.1")
+    (version "0.12.3")
     (source
      (origin
        (method url-fetch)
@@ -124,17 +124,15 @@ requests, and the library is intended for implementing Ajax APIs.")
                            "http-types-" version ".tar.gz"))
        (sha256
         (base32
-         "1wv9k6nlvkdsxwlr7gaynphvzmvi5211gvwq96mbcxgk51a739rz"))))
+         "05j00b9nqmwh9zaq9y9x50k81v2pd3j7a71kd91zlnbl8xk4m2jf"))))
     (build-system haskell-build-system)
     (native-inputs
      `(("ghc-doctest" ,ghc-doctest)
        ("ghc-hspec" ,ghc-hspec)
        ("ghc-quickcheck" ,ghc-quickcheck)
-       ("ghc-quickcheck-instances" ,ghc-quickcheck-instances)
-       ("hspec-discover" ,hspec-discover)))
+       ("ghc-quickcheck-instances" ,ghc-quickcheck-instances)))
     (inputs
-     `(("ghc-case-insensitive" ,ghc-case-insensitive)
-       ("ghc-blaze-builder" ,ghc-blaze-builder)))
+     `(("ghc-case-insensitive" ,ghc-case-insensitive)))
     (home-page "https://github.com/aristidb/http-types")
     (synopsis "Generic HTTP types for Haskell")
     (description "This package provides generic HTTP types for Haskell (for
