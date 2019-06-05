@@ -541,7 +541,7 @@ transfers.")
 (define-public ghc-warp
   (package
     (name "ghc-warp")
-    (version "3.2.23")
+    (version "3.2.27")
     (source
      (origin
        (method url-fetch)
@@ -549,8 +549,7 @@ transfers.")
                            "warp-" version "/" "warp-" version
                            ".tar.gz"))
        (sha256
-        (base32
-         "12v9qhi4hyp0sb90yddsax16jj7x47nmqwn53sv7b5nszcxgzam0"))))
+        (base32 "0p2w88q0zd55ms20qylipbi0qzbf324i9r8b9qqxyds5yc1anq76"))))
     (build-system haskell-build-system)
     (inputs
      `(("ghc-async" ,ghc-async)
