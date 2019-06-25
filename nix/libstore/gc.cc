@@ -188,7 +188,7 @@ void LocalStore::addTempRoot(const Path & path)
 
     /* Upgrade the lock to a write lock.  This will cause us to block
        if the garbage collector is holding our lock. */
-    debug(format("acquiring write lock on `%1%'") % fnTempRoots);
+    debug(format("acquiring write lock on `%1%' for `%2%'") % fnTempRoots % path);
     lockFile(fdTempRoots, ltWrite, true);
 
     string s = path + '\0';
