@@ -1331,6 +1331,24 @@ Path LocalStore::createTempDirInStore()
            until `tmpDir' exists. */
         tmpDir = createTempDir(settings.nixStore);
         addTempRoot(tmpDir);
+
+	/* wait for directory to be created */
+#if HAVE_NANOSLEEP
+	for (int i = 0; i < 10; i++) {
+		if (pathExists(tmpDir)) {
+			break;
+		}
+	        struct timespec t;
+	        t.tv_sec = 0;
+	        t.tv_nsec = (random() % 100) * 1000 * 1000; /* <= 0.1s */
+	        nanosleep(&t, 0);
+	}
+#else
+	if (!pathExists(tmpDir)) {
+	        sleep(1);
+	}
+#endif
+
     } while (!pathExists(tmpDir));
     return tmpDir;
 }
