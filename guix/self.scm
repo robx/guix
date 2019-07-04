@@ -454,8 +454,6 @@ TRANSLATIONS, an alist of msgid and msgstr."
           ;; see those images and produce image references in the Info output.
           (copy-recursively #$documentation "."
                             #:log (%make-void-port "w"))
-          (copy-recursively #+(translate-texi-manuals source) "."
-                            #:log (%make-void-port "w"))
           (delete-file-recursively "images")
           (symlink (string-append #$output "/images") "images")
 
