@@ -265,39 +265,38 @@ path to the repository."
         ;; If one of these are required at build time, it means we
         ;; can use the much nicer dune-build-system.
         (let ((use-dune? (or (member "dune" native-dependencies)
-                        (member "jbuilder" native-dependencies))))
-          (call-with-temporary-output-file
-            (lambda (temp port)
-              (and (url-fetch source-url temp)
-                   (values
-                    `(package
-                       (name ,(ocaml-name->guix-name name))
-                       (version ,(if (string-prefix? "v" version)
-                                   (substring version 1)
-                                   version))
-                       (source
-                         (origin
-                           (method url-fetch)
-                           (uri ,source-url)
-                           (sha256 (base32 ,(guix-hash-url temp)))))
-                       (build-system ,(if use-dune?
-                                          'dune-build-system
-                                          'ocaml-build-system))
-                       ,@(if (null? inputs)
-                           '()
-                           `((propagated-inputs ,(list 'quasiquote inputs))))
-                       ,@(if (null? native-inputs)
-                           '()
-                           `((native-inputs ,(list 'quasiquote native-inputs))))
-                       ,@(if (equal? name (guix-name->opam-name (ocaml-name->guix-name name)))
-                           '()
-                           `((properties
-                               ,(list 'quasiquote `((upstream-name . ,name))))))
-                       (home-page ,(metadata-ref opam-content "homepage"))
-                       (synopsis ,(metadata-ref opam-content "synopsis"))
-                       (description ,(metadata-ref opam-content "description"))
-                       (license #f))
-                    dependencies)))))))
+                        (member "jbuilder" native-dependencies)))
+              (hash (guix-hash-url source-url)))
+          (and hash
+               (values
+                `(package
+                   (name ,(ocaml-name->guix-name name))
+                   (version ,(if (string-prefix? "v" version)
+                               (substring version 1)
+                               version))
+                   (source
+                     (origin
+                       (method url-fetch)
+                       (uri ,source-url)
+                       (sha256 (base32 ,hash))))
+                   (build-system ,(if use-dune?
+                                      'dune-build-system
+                                      'ocaml-build-system))
+                   ,@(if (null? inputs)
+                       '()
+                       `((propagated-inputs ,(list 'quasiquote inputs))))
+                   ,@(if (null? native-inputs)
+                       '()
+                       `((native-inputs ,(list 'quasiquote native-inputs))))
+                   ,@(if (equal? name (guix-name->opam-name (ocaml-name->guix-name name)))
+                       '()
+                       `((properties
+                           ,(list 'quasiquote `((upstream-name . ,name))))))
+                   (home-page ,(metadata-ref opam-content "homepage"))
+                   (synopsis ,(metadata-ref opam-content "synopsis"))
+                   (description ,(metadata-ref opam-content "description"))
+                   (license #f))
+                dependencies)))))
 
 (define (opam-recursive-import package-name)
   (recursive-import package-name #f
