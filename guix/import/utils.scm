@@ -49,6 +49,7 @@
             assoc-ref*
 
             url-fetch
+            guix-hash-file
             guix-hash-url
 
             package-names->package-inputs
@@ -121,9 +122,16 @@ recursively apply the procedure to the sub-list."
   (parameterize ((current-output-port (current-error-port)))
     (build:url-fetch url file-name)))
 
-(define (guix-hash-url filename)
+(define (guix-hash-file filename)
   "Return the hash of FILENAME in nix-base32 format."
   (bytevector->nix-base32-string (file-sha256 filename)))
+
+(define (guix-hash-url url)
+  "Return the hash of URL in nix-base32 format."
+  (call-with-temporary-output-file
+   (lambda (temp port)
+     (and (url-fetch url temp)
+          (guix-hash-file temp)))))
 
 (define (spdx-string->license str)
   "Convert STR, a SPDX formatted license identifier, to a license object.
@@ -301,7 +309,7 @@ the expected fields of an <origin> object."
        (origin
          (method url-fetch)
          (uri source-url)
-         (sha256 (base32 (guix-hash-url tarball))))))
+         (sha256 (base32 (guix-hash-file tarball))))))
     (#f #f)
     (orig (let ((sha (match (assoc-ref orig "sha256")
                        ((("base32" . value))

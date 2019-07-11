@@ -31,7 +31,7 @@
   #:use-module (ice-9 peg))
 
 (define test-opam-file
-"opam-version: \"2.0\"
+  "opam-version: \"2.0\"
   version: \"1.0.0\"
 maintainer: \"Alice Doe\"
 authors: [
@@ -60,61 +60,56 @@ url {
   checksum: \"md5=74c6e897658e820006106f45f736381f\"
 }")
 
-(define test-source-hash
-  "")
-
 (define test-repo
   (mkdtemp! "/tmp/opam-repo.XXXXXX"))
+
+(define %test-hash
+  "0w83v9ylycsssyn47q8wnkfbvhn5vn10z6i35n5965i2m1r0mmcf")
 
 (test-begin "opam")
 
 (test-assert "opam->guix-package"
-  (mock ((guix import utils) url-fetch
-         (lambda (url file-name)
-           (match url
-             ("https://example.org/foo-1.0.0.tar.gz"
-              (begin
-                (mkdir-p "foo-1.0.0")
-                (system* "tar" "czvf" file-name "foo-1.0.0/")
-                (delete-file-recursively "foo-1.0.0")
-                (set! test-source-hash
-                  (call-with-input-file file-name port-sha256))))
-             (_ (error "Unexpected URL: " url)))))
-      (let ((my-package (string-append test-repo "/packages/foo/foo.1.0.0")))
-        (mkdir-p my-package)
-        (with-output-to-file (string-append my-package "/opam")
-          (lambda _
-            (format #t "~a" test-opam-file))))
-      (mock ((guix import opam) get-opam-repository
-             (lambda _
-               test-repo))
-        (match (opam->guix-package "foo")
-          (('package
-             ('name "ocaml-foo")
-             ('version "1.0.0")
-             ('source ('origin
-                        ('method 'url-fetch)
-                        ('uri "https://example.org/foo-1.0.0.tar.gz")
-                        ('sha256
-                         ('base32
-                          (? string? hash)))))
-             ('build-system 'ocaml-build-system)
-             ('propagated-inputs
-              ('quasiquote
-               (("ocaml-zarith" ('unquote 'ocaml-zarith)))))
-             ('native-inputs
-              ('quasiquote
-               (("ocaml-alcotest" ('unquote 'ocaml-alcotest))
-                ("ocamlbuild" ('unquote 'ocamlbuild)))))
-             ('home-page "https://example.org/")
-             ('synopsis "Some example package")
-             ('description "This package is just an example.")
-             ('license #f))
-           (string=? (bytevector->nix-base32-string
-                      test-source-hash)
-                     hash))
-          (x
-           (pk 'fail x #f))))))
+  (begin
+    (let ((my-package (string-append test-repo "/packages/foo/foo.1.0.0")))
+      (mkdir-p my-package)
+      (with-output-to-file (string-append my-package "/opam")
+        (lambda _
+          (format #t "~a" test-opam-file))))
+    (mock
+     ((guix import utils) guix-hash-url
+      (lambda (url)
+        (match url
+          ("https://example.org/foo-1.0.0.tar.gz" %test-hash)
+          (_ (error "Unexpected URL: " url)))))
+     (mock
+      ((guix import opam) get-opam-repository
+       (lambda _
+         test-repo))
+      (match (opam->guix-package "foo")
+        (('package
+           ('name "ocaml-foo")
+           ('version "1.0.0")
+           ('source ('origin
+                      ('method 'url-fetch)
+                      ('uri "https://example.org/foo-1.0.0.tar.gz")
+                      ('sha256
+                       ('base32
+                        (? string? hash)))))
+           ('build-system 'ocaml-build-system)
+           ('propagated-inputs
+            ('quasiquote
+             (("ocaml-zarith" ('unquote 'ocaml-zarith)))))
+           ('native-inputs
+            ('quasiquote
+             (("ocaml-alcotest" ('unquote 'ocaml-alcotest))
+              ("ocamlbuild" ('unquote 'ocamlbuild)))))
+           ('home-page "https://example.org/")
+           ('synopsis "Some example package")
+           ('description "This package is just an example.")
+           ('license #f))
+         (string=? hash %test-hash))
+        (x
+         (pk 'fail x #f)))))))
 
 ;; Test the opam file parser
 ;; We fold over some test cases. Each case is a pair of the string to parse and the
