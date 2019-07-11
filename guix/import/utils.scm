@@ -51,6 +51,7 @@
 
             url-fetch
             guix-hash-url
+            guix-hash-url-real
 
             package-names->package-inputs
             maybe-inputs
@@ -125,6 +126,13 @@ recursively apply the procedure to the sub-list."
 (define (guix-hash-url filename)
   "Return the hash of FILENAME in nix-base32 format."
   (bytevector->nix-base32-string (file-sha256 filename)))
+
+(define (guix-hash-url-real url)
+  "Return the hash of URL in nix-base32 format."
+  (call-with-temporary-output-file
+   (lambda (temp port)
+     (and (url-fetch url temp)
+          (guix-hash-url temp)))))
 
 (define (spdx-string->license str)
   "Convert STR, a SPDX formatted license identifier, to a license object.
