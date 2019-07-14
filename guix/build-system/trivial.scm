@@ -23,7 +23,7 @@
   #:use-module (guix packages)
   #:use-module (guix build-system)
   #:use-module (ice-9 match)
-  #:export (trivial-build-system))
+  #:export (guile-for-build trivial-build-system))
 
 (define (guile-for-build store guile system)
   (match guile
