@@ -220,6 +220,7 @@ MODULES =					\
   guix/import/cpan.scm				\
   guix/import/cran.scm				\
   guix/import/crate.scm				\
+  guix/import/elm.scm   			\
   guix/import/elpa.scm   			\
   guix/import/gem.scm				\
   guix/import/github.scm   			\
@@ -265,6 +266,7 @@ MODULES =					\
   guix/scripts/challenge.scm			\
   guix/scripts/import/crate.scm			\
   guix/scripts/import/cran.scm			\
+  guix/scripts/import/elm.scm			\
   guix/scripts/import/elpa.scm  		\
   guix/scripts/import/gem.scm			\
   guix/scripts/import/gnu.scm			\
