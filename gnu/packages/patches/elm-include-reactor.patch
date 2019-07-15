@@ -1,0 +1,13 @@
+diff --git a/ui/terminal/src/Develop/StaticFiles.hs b/ui/terminal/src/Develop/StaticFiles.hs
+index 3659d112..f77635c7 100644
+--- a/ui/terminal/src/Develop/StaticFiles.hs
++++ b/ui/terminal/src/Develop/StaticFiles.hs
+@@ -89,7 +89,7 @@ sansFontPath =
+ 
+ elm :: BS.ByteString
+ elm =
+-  $(bsToExp =<< runIO Build.compile)
++  $(bsToExp =<< runIO (Build.readAsset "elm.js"))
+ 
+ 
+ 
