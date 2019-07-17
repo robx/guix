@@ -862,3 +862,37 @@ To get started quickly, see the examples:
 configuration.  This library provides the common bits for writing custom
 @file{Setup.hs} files.")
     (license license:bsd-3)))
+
+(define-public ghc-tasty-hspec
+  (package
+    (name "ghc-tasty-hspec")
+    (version "1.1.5.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/tasty-hspec/tasty-hspec-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0i9kdzjpk750sa078jj3iyhp72k0177zk7vxl131r6dkyz09x27y"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-hspec" ,ghc-hspec)
+       ("ghc-hspec-core" ,ghc-hspec-core)
+       ("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-smallcheck" ,ghc-tasty-smallcheck)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)))
+    (arguments
+     `(#:cabal-revision
+       ("3"
+        "1wgz3z5bnq5qml8d0i18gvz30dmmax3686lmqz3vf4hxd3vqfkpj")))
+    (home-page
+     "https://github.com/mitchellwrosen/tasty-hspec")
+    (synopsis
+     "Hspec support for the Tasty test framework.")
+    (description
+     "This package provides a Tasty provider for Hspec test suites.")
+    (license license:bsd-3)))
