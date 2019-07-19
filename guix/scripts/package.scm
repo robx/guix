@@ -46,6 +46,7 @@
                 #:select (with-file-lock/no-wait))
   #:use-module (ice-9 format)
   #:use-module (ice-9 match)
+  #:use-module (ice-9 popen)
   #:use-module (ice-9 regex)
   #:use-module (ice-9 vlist)
   #:use-module (srfi srfi-1)
@@ -58,6 +59,7 @@
   #:autoload   (gnu packages base) (canonical-package)
   #:autoload   (gnu packages guile) (guile-2.2)
   #:autoload   (gnu packages bootstrap) (%bootstrap-guile)
+  #:autoload   (gnu packages linux) (util-linux)
   #:export (build-and-use-profile
             delete-generations
             delete-matching-generations
@@ -668,6 +670,11 @@ doesn't need it."
 ;;; Queries and actions.
 ;;;
 
+(define (columnize thunk)
+  (let ((port (open-output-pipe "column -t")))
+    (with-output-to-port port thunk)
+    (close-pipe port)))
+
 (define (process-query opts)
   "Process any query specified by OPTS.  Return #t when a query was actually
 processed, #f otherwise."
@@ -717,15 +724,17 @@ processed, #f otherwise."
               (manifest  (profile-manifest profile))
               (installed (manifest-entries manifest)))
          (leave-on-EPIPE
-          (for-each (match-lambda
-                      (($ <manifest-entry> name version output path _)
-                       (when (or (not regexp)
-                                 (regexp-exec regexp name))
-                         (format #t "~a\t~a\t~a\t~a~%"
-                                 name (or version "?") output path))))
+          (columnize
+           (lambda ()
+             (for-each (match-lambda
+                         (($ <manifest-entry> name version output path _)
+                          (when (or (not regexp)
+                                    (regexp-exec regexp name))
+                            (format #t "~a\t~a\t~a\t~a~%"
+                                    name (or version "?") output path))))
 
-                    ;; Show most recently installed packages last.
-                    (reverse installed)))
+                       ;; Show most recently installed packages last.
+                       (reverse installed)))))
          #t))
 
       (('list-available regexp)
@@ -748,16 +757,18 @@ processed, #f otherwise."
                                 result))
                           '())))
          (leave-on-EPIPE
-          (for-each (match-lambda
-                      ((name version outputs location)
-                       (format #t "~a\t~a\t~a\t~a~%"
-                               name version
-                               (string-join outputs ",")
-                               (location->string location))))
-                    (sort available
-                          (match-lambda*
-                            (((name1 . _) (name2 . _))
-                             (string<? name1 name2))))))
+          (columnize
+           (lambda ()
+             (for-each (match-lambda
+                         ((name version outputs location)
+                          (format #t "~a\t~a\t~a\t~a~%"
+                                  name version
+                                  (string-join outputs ",")
+                                  (location->string location))))
+                       (sort available
+                             (match-lambda*
+                               (((name1 . _) (name2 . _))
+                                (string<? name1 name2))))))))
          #t))
 
       (('list-profiles _)
