@@ -77,25 +77,21 @@ the package."
         (license #f)))))
 
 (define (get-dependencies elm.json)
-  (let* ((add-dep  (lambda (name version deps)
-                     (cons `(,name . ,version) deps)))
-         (deps     (hash-ref elm.json "dependencies"))
-         (direct   (hash-ref deps "direct"))
-         (indirect (hash-ref deps "indirect")))
-    (hash-fold add-dep
-               (hash-fold add-dep '() direct)
-               indirect)))
+  (let* ((deps     (assoc-ref elm.json "dependencies"))
+         (direct   (assoc-ref deps "direct"))
+         (indirect (assoc-ref deps "indirect")))
+    (append direct indirect)))
 
 (define (elm.json->guix-package elm.json)
   "Read package metadata from the given ELM.JSON file, and return
 the `package' s-expression corresponding to that package."
-  (let ((type    (hash-ref elm.json "type")))
+  (let ((type    (assoc-ref elm.json "type")))
     (cond
       ((equal? type "package")
-         (let* ((name    (hash-ref elm.json "name"))
-                (version (hash-ref elm.json "version"))
-                (license (hash-ref elm.json "license"))
-                (summary (hash-ref elm.json "summary")))
+         (let* ((name    (assoc-ref elm.json "name"))
+                (version (assoc-ref elm.json "version"))
+                (license (assoc-ref elm.json "license"))
+                (summary (assoc-ref elm.json "summary")))
            (make-elm-package-sexp name version summary license)))
       ((equal? type "application")
          (make-elm-app-sexp
