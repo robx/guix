@@ -1,0 +1,16 @@
+--- a/Setup.hs	2018-10-02 07:59:03.000000000 +0200
++++ b/Setup.hs	2019-07-20 11:22:39.064000000 +0200
+@@ -23,12 +23,9 @@
+ writeCustomFile filepath = do
+   putStrLn $ "Generating " ++ filepath ++ "..."
+ 
+-  desc <- readProcess "git" ["describe", "--abbrev=8", "--always"] ""
+-  now <- readProcess "date" ["+%s"] ""
+-
+   writeFile filepath $ unlines
+       [ "module Build_elm_format where"
+       , ""
+       , "gitDescribe :: String"
+-      , "gitDescribe = " ++ show (init desc)
++      , "gitDescribe = " ++ show "not-a-git-build"
+       ]

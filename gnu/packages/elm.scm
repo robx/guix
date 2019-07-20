@@ -23,6 +23,7 @@
   #:use-module (gnu packages haskell-crypto)
   #:use-module (gnu packages haskell-xyz)
   #:use-module (gnu packages haskell-web)
+  #:use-module (gnu packages version-control)
   #:use-module (guix build-system elm)
   #:use-module (guix build-system haskell)
   #:use-module (guix git-download)
@@ -411,3 +412,61 @@ language for the browser.  It includes commands for developers such as
       (description "Elm's reactor")
       (home-page "https://elm-lang.org")
       (license bsd-3))))
+
+(define ghc-indents-0.3
+  (package
+    (name "ghc-indents")
+    (version "0.3.3")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/indents/indents-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "16lz21bp9j14xilnq8yym22p3saxvc9fsgfcf5awn2a6i6n527xn"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-concatenative" ,ghc-concatenative)))
+    (home-page
+     "http://patch-tag.com/r/salazar/indents")
+    (synopsis
+     "indentation sensitive parser-combinators for parsec")
+    (description
+     "This library provides functions for use in parsing indentation sensitive contexts.")
+    (license bsd-3)))
+
+(define-public elm-format
+  (package
+    (name "elm-format")
+    (version "0.8.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append "https://github.com/avh4/elm-format/archive/"
+                           version
+                           ".tar.gz"))
+       (sha256
+        (base32 "1dywzhdp25iki9kk9fvwz6d9zyxzapnk1fmj03082ca71r40mpzx"))
+       (patches
+        (search-patches "elm-format-setup.patch"))))
+    (build-system haskell-build-system)
+    (arguments
+     `(#:tests? #f
+       #:haddock? #f))
+    (inputs
+     `(("ghc-ansi-terminal" ,ghc-ansi-terminal)
+       ("ghc-ansi-wl-pprint" ,ghc-ansi-wl-pprint)
+       ("ghc-free" ,ghc-free)
+       ("ghc-indents" ,ghc-indents-0.3)
+       ("ghc-json" ,ghc-json)
+       ("ghc-optparse-applicative"
+        ,ghc-optparse-applicative)
+       ("ghc-split" ,ghc-split)))
+    (home-page "https://github.com/avh4/elm-format")
+    (synopsis "Source code formatter for Elm")
+    (description
+     "A simple way to format your Elm code according to the official style guide.")
+    (license bsd-3)))
