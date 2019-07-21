@@ -13511,3 +13511,35 @@ into monoids such as builders and printers.")
 ASCII and Latin-1 portions of the 'Char' and 'Word8'
 data types.")
     (license license:bsd-3)))
+
+(define-public ghc-text-builder
+  (package
+    (name "ghc-text-builder")
+    (version "0.6.5.1") ;; newer than ghc-8.4 lts stackage
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/text-builder/text-builder-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0g40s5md7kfmhqsxxrfliwb3p4whg3m2wp31bai051nx1ddkkvay"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-base-prelude" ,ghc-base-prelude)
+       ("ghc-semigroups" ,ghc-semigroups)))
+    (native-inputs
+     `(("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-quickcheck-instances"
+        ,ghc-quickcheck-instances)
+       ("ghc-rerebase" ,ghc-rerebase)
+       ("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-hunit" ,ghc-tasty-hunit)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)))
+    (home-page
+     "https://github.com/nikita-volkov/text-builder")
+    (synopsis "An efficient strict text builder")
+    (description "")
+    (license license:expat)))
