@@ -13608,3 +13608,40 @@ memory footprint of a (boxed) 'ShortText' value is 4 words
 evidence-wrapper for values that are checked to satisfy the
 property associated with the type.")
     (license license:bsd-3)))
+
+(define-public ghc-deferred-folds
+  (package
+    (name "ghc-deferred-folds")
+    (version "0.9.10.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/deferred-folds/deferred-folds-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "15lwcc7i7wmi1gkkmak677qw0fnz4a4ldnv842xaimfi64753shv"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-foldl" ,ghc-foldl)
+       ("ghc-hashable" ,ghc-hashable)
+       ("ghc-primitive" ,ghc-primitive)
+       ("ghc-unordered-containers"
+        ,ghc-unordered-containers)
+       ("ghc-vector" ,ghc-vector)))
+    (native-inputs
+     `(("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-quickcheck-instances"
+        ,ghc-quickcheck-instances)
+       ("ghc-rerebase" ,ghc-rerebase)
+       ("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-hunit" ,ghc-tasty-hunit)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)))
+    (home-page
+     "https://github.com/metrix-ai/deferred-folds")
+    (synopsis "Abstractions over deferred folds")
+    (description
+     "Abstractions over deferred folds.")
+    (license license:expat)))
