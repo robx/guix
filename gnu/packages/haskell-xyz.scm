@@ -13482,3 +13482,32 @@ compression ratios.")
      "This package provides an interface for injecting text
 into monoids such as builders and printers.")
     (license license:bsd-3)))
+
+(define-public ghc-text-latin1
+  (package
+    (name "ghc-text-latin1")
+    (version "0.3.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/text-latin1/text-latin1-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1wxbv6m567n3330baw2k0xxd50nhn2k6w3lgmpk6zq7x1jp84x3c"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-data-checked" ,ghc-data-checked)
+       ("ghc-semigroups" ,ghc-semigroups)
+       ("ghc-case-insensitive" ,ghc-case-insensitive)
+       ("ghc-hashable" ,ghc-hashable)))
+    (home-page "https://github.com/mvv/text-latin1")
+    (synopsis
+     "Latin-1 (including ASCII) utility functions")
+    (description
+     "This package provides various functions over the
+ASCII and Latin-1 portions of the 'Char' and 'Word8'
+data types.")
+    (license license:bsd-3)))
