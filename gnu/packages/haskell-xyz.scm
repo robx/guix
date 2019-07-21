@@ -13451,3 +13451,34 @@ Zstandard compression algorithm, a fast lossless compression algorithm
 targeting real-time compression scenarios at zlib-level and better
 compression ratios.")
     (license license:bsd-3)))
+
+(define-public ghc-text-printer
+  (package
+    (name "ghc-text-printer")
+    (version "0.5")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/text-printer/text-printer-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "02sadjd19dbxzawr1q8z3j7w6vhp5mvz1dbssk118hsvl6k0234g"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-text-latin1" ,ghc-text-latin1)
+       ("ghc-semigroups" ,ghc-semigroups)))
+    (native-inputs
+     `(("ghc-test-framework" ,ghc-test-framework)
+       ("ghc-test-framework-quickcheck2"
+        ,ghc-test-framework-quickcheck2)
+       ("ghc-quickcheck" ,ghc-quickcheck)))
+    (home-page "https://github.com/mvv/text-printer")
+    (synopsis
+     "Abstract interface for text builders/printers.")
+    (description
+     "This package provides an interface for injecting text
+into monoids such as builders and printers.")
+    (license license:bsd-3)))
