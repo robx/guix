@@ -252,7 +252,7 @@ tasty.")
     (home-page "https://github.com/bennofs/tasty-th")
     (synopsis "Automatically generate tasty TestTrees")
     (description
-      "Tasty-th automatically generates tasty TestTrees from functions of the
+     "Tasty-th automatically generates tasty TestTrees from functions of the
 current module, using TemplateHaskell.  This is a fork the original
 test-framework-th package, modified to work with tasty instead of
 test-framework.")
@@ -283,7 +283,7 @@ test-framework.")
 test tree based on the result of a previous test run.  You can use this to run
 only those tests that failed in the last run, or to only run the tests that have
 been added since previous test run.")
-  (license license:bsd-3)))
+    (license license:bsd-3)))
 
 (define-public ghc-tasty-expected-failure
   (package
@@ -895,4 +895,37 @@ configuration.  This library provides the common bits for writing custom
      "Hspec support for the Tasty test framework.")
     (description
      "This package provides a Tasty provider for Hspec test suites.")
+    (license license:bsd-3)))
+
+(define-public ghc-tasty-hedgehog
+  (package
+    (name "ghc-tasty-hedgehog")
+    (version "0.2.0.0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/tasty-hedgehog/tasty-hedgehog-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "10m1akbiblnjq9ljk469725k30b254d36d267rk51z2f171py42s"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-tagged" ,ghc-tagged)
+       ("ghc-tasty" ,ghc-tasty)
+       ("ghc-hedgehog" ,ghc-hedgehog)))
+    (native-inputs
+     `(("ghc-tasty-expected-failure"
+        ,ghc-tasty-expected-failure)))
+    (arguments
+     `(#:cabal-revision
+       ("6"
+        "0d7s1474pvnyad6ilr5rvpama7s468ya9ns4ksbl0827z9vvga43")))
+    (home-page
+     "https://github.com/qfpl/tasty-hedgehog")
+    (synopsis "Integration for tasty and hedgehog.")
+    (description
+     "Integrates the hedgehog testing library with the tasty testing framework.")
     (license license:bsd-3)))

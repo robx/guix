@@ -426,7 +426,7 @@ communication between web applications and web servers.")
          "0w5ldq4gplc16zzk5ikmbbjw79imaqvw8p6lylaw3hlsbn3zzm4d"))))
     (build-system haskell-build-system)
     (arguments `(#:tests? #f)) ; FIXME: Tests cannot find libraries exported
-                               ; by propagated-inputs.
+                                        ; by propagated-inputs.
     (inputs
      `(("ghc-auto-update" ,ghc-auto-update)
        ("ghc-byteorder" ,ghc-byteorder)
@@ -588,29 +588,29 @@ based WAI (Web Application Interface in Haskell).")
 
 (define-public ghc-tls-session-manager
   (package
-  (name "ghc-tls-session-manager")
-  (version "0.0.0.2")
-  (source
-    (origin
-      (method url-fetch)
-      (uri (string-append
-            "https://hackage.haskell.org/package/"
-            "tls-session-manager/tls-session-manager-"
+    (name "ghc-tls-session-manager")
+    (version "0.0.0.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/"
+             "tls-session-manager/tls-session-manager-"
              version ".tar.gz"))
-      (sha256
+       (sha256
         (base32
-          "0rvmln545vghsx8zhxp44f0f6pzma8cylarmfhhysy55ipywr1n5"))))
-  (build-system haskell-build-system)
-  (inputs
-    `(("ghc-auto-update" ,ghc-auto-update)
-      ("ghc-clock" ,ghc-clock)
-      ("ghc-psqueues" ,ghc-psqueues)
-      ("ghc-tls" ,ghc-tls)))
-  (home-page "http://hackage.haskell.org/package/tls-session-manager")
-  (synopsis "In-memory TLS session manager")
-  (description "This Haskell library provides a TLS session manager with
+         "0rvmln545vghsx8zhxp44f0f6pzma8cylarmfhhysy55ipywr1n5"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-auto-update" ,ghc-auto-update)
+       ("ghc-clock" ,ghc-clock)
+       ("ghc-psqueues" ,ghc-psqueues)
+       ("ghc-tls" ,ghc-tls)))
+    (home-page "http://hackage.haskell.org/package/tls-session-manager")
+    (synopsis "In-memory TLS session manager")
+    (description "This Haskell library provides a TLS session manager with
 limitation, automatic pruning, energy saving and replay resistance.")
-  (license license:bsd-3)))
+    (license license:bsd-3)))
 
 (define-public ghc-warp-tls
   (package
@@ -1110,39 +1110,39 @@ from Yesod.")
     (license license:expat)))
 
 (define-public ghc-yesod-form
-    (package
+  (package
     (name "ghc-yesod-form")
     (version "1.6.2")
     (source
-      (origin
-        (method url-fetch)
-        (uri (string-append
-               "https://hackage.haskell.org/package/yesod-form/yesod-form-"
-               version
-               ".tar.gz"))
-        (sha256
-          (base32
-            "1p1x1hffvarplc82ykdk7rm6p5isqgqf78bvxzpfhncxs4kwx057"))))
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/yesod-form/yesod-form-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1p1x1hffvarplc82ykdk7rm6p5isqgqf78bvxzpfhncxs4kwx057"))))
     (build-system haskell-build-system)
     (inputs
-      `(("ghc-yesod-core" ,ghc-yesod-core)
-        ("ghc-yesod-persistent" ,ghc-yesod-persistent)
-        ("ghc-shakespeare" ,ghc-shakespeare)
-        ("ghc-persistent" ,ghc-persistent)
-        ("ghc-data-default" ,ghc-data-default)
-        ("ghc-xss-sanitize" ,ghc-xss-sanitize)
-        ("ghc-blaze-builder" ,ghc-blaze-builder)
-        ("ghc-email-validate" ,ghc-email-validate)
-        ("ghc-wai" ,ghc-wai)
-        ("ghc-blaze-html" ,ghc-blaze-html)
-        ("ghc-blaze-markup" ,ghc-blaze-markup)
-        ("ghc-attoparsec" ,ghc-attoparsec)
-        ("ghc-byteable" ,ghc-byteable)
-        ("ghc-aeson" ,ghc-aeson)
-        ("ghc-resourcet" ,ghc-resourcet)
-        ("ghc-semigroups" ,ghc-semigroups)
-        ("ghc-network-uri" ,ghc-network-uri)
-        ("ghc-hspec" ,ghc-hspec)))
+     `(("ghc-yesod-core" ,ghc-yesod-core)
+       ("ghc-yesod-persistent" ,ghc-yesod-persistent)
+       ("ghc-shakespeare" ,ghc-shakespeare)
+       ("ghc-persistent" ,ghc-persistent)
+       ("ghc-data-default" ,ghc-data-default)
+       ("ghc-xss-sanitize" ,ghc-xss-sanitize)
+       ("ghc-blaze-builder" ,ghc-blaze-builder)
+       ("ghc-email-validate" ,ghc-email-validate)
+       ("ghc-wai" ,ghc-wai)
+       ("ghc-blaze-html" ,ghc-blaze-html)
+       ("ghc-blaze-markup" ,ghc-blaze-markup)
+       ("ghc-attoparsec" ,ghc-attoparsec)
+       ("ghc-byteable" ,ghc-byteable)
+       ("ghc-aeson" ,ghc-aeson)
+       ("ghc-resourcet" ,ghc-resourcet)
+       ("ghc-semigroups" ,ghc-semigroups)
+       ("ghc-network-uri" ,ghc-network-uri)
+       ("ghc-hspec" ,ghc-hspec)))
     (home-page "https://www.yesodweb.com")
     (synopsis "Form handling support for Yesod Web Framework")
     (description "This Haskell package provies a set of basic form inputs such
@@ -1516,4 +1516,241 @@ into a Haskell package, so it can be depended upon by Cabal packages.
 The first three components of the version number match the upstream flot
 version.  The package is designed to meet the redistribution
 requirements of downstream users (e.g. Debian).")
+    (license license:expat)))
+
+(define-public ghc-websockets
+  (package
+    (name "ghc-websockets")
+    (version "0.12.5.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/websockets/websockets-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0wacifjbskkfv6xq1sbmc8p60wn767xcjhz8hn8hyijxrrmjabci"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-attoparsec" ,ghc-attoparsec)
+       ("ghc-base64-bytestring" ,ghc-base64-bytestring)
+       ("ghc-bytestring-builder"
+        ,ghc-bytestring-builder)
+       ("ghc-case-insensitive" ,ghc-case-insensitive)
+       ("ghc-network" ,ghc-network)
+       ("ghc-random" ,ghc-random)
+       ("ghc-sha" ,ghc-sha)
+       ("ghc-streaming-commons" ,ghc-streaming-commons)
+       ("ghc-entropy" ,ghc-entropy)))
+    (native-inputs
+     `(("ghc-hunit" ,ghc-hunit)
+       ("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-test-framework" ,ghc-test-framework)
+       ("ghc-test-framework-hunit"
+        ,ghc-test-framework-hunit)
+       ("ghc-test-framework-quickcheck2"
+        ,ghc-test-framework-quickcheck2)))
+    (home-page "http://jaspervdj.be/websockets")
+    (synopsis
+     "A sensible and clean way to write WebSocket-capable servers in Haskell")
+    (description
+     "This library allows you to write WebSocket-capable servers.")
+    (license license:bsd-3)))
+
+(define-public ghc-wai-websockets
+  (package
+    (name "ghc-wai-websockets")
+    (version "3.0.1.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/wai-websockets/wai-websockets-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0b2xmdsrsqpssyib53wbr6r8hf75789ndyyanv37sv99iyqcwz4i"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-wai" ,ghc-wai)
+       ("ghc-case-insensitive" ,ghc-case-insensitive)
+       ("ghc-network" ,ghc-network)
+       ("ghc-websockets" ,ghc-websockets)
+       ("ghc-http-types" ,ghc-http-types)
+       ("ghc-warp" ,ghc-warp)
+       ("ghc-wai-app-static" ,ghc-wai-app-static)
+       ("ghc-file-embed" ,ghc-file-embed)))
+    (home-page "http://github.com/yesodweb/wai")
+    (synopsis
+     "Provide a bridge between WAI and the websockets package")
+    (description
+     "Provide a bridge between WAI and the websockets package.")
+    (license license:expat)))
+
+(define-public ghc-wai-cors
+  (package
+    (name "ghc-wai-cors")
+    (version "0.2.6")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/wai-cors/wai-cors-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "11m9d8hn9pb9brprz0kglldmcqj83kjkjdwdpxdbl12430ii1ina"))
+       (patches (search-patches "ghc-wai-cors-skip-phantomjs-tests.patch"))))
+    (build-system haskell-build-system)
+    (arguments
+     ;; required for unclear reasons; those flags should default to false
+     `(#:configure-flags '("--flags=-wai-2" "--flags=-wai-1")))
+    (inputs
+     `(("ghc-attoparsec" ,ghc-attoparsec)
+       ("ghc-base-unicode-symbols"
+        ,ghc-base-unicode-symbols)
+       ("ghc-case-insensitive" ,ghc-case-insensitive)
+       ("ghc-http-types" ,ghc-http-types)
+       ("ghc-wai" ,ghc-wai)))
+    (native-inputs
+     `(("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-hunit" ,ghc-tasty-hunit)
+       ("ghc-transformers-compat" ,ghc-transformers-compat)
+       ("ghc-wai-extra" ,ghc-wai-extra)
+       ("ghc-wai-websockets" ,ghc-wai-websockets)
+       ("ghc-warp" ,ghc-warp)
+       ("ghc-websockets" ,ghc-websockets)))
+    (home-page
+     "https://github.com/larskuhtz/wai-cors")
+    (synopsis "CORS for WAI")
+    (description
+     "This package provides an implemenation of Cross-Origin resource sharing
+(CORS) for Wai that aims to be compliant with http://www.w3.org/TR/cors.")
+    (license license:expat)))
+
+(define-public ghc-wai-middleware-static
+  (package
+    (name "ghc-wai-middleware-static")
+    (version "0.8.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/wai-middleware-static/wai-middleware-static-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1z5yapcf8j9w71f2na30snmalsajlyi8an2f9qrjdmajabyykr0b"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-cryptonite" ,ghc-cryptonite)
+       ("ghc-memory" ,ghc-memory)
+       ("ghc-expiring-cache-map"
+        ,ghc-expiring-cache-map)
+       ("ghc-http-types" ,ghc-http-types)
+       ("ghc-mime-types" ,ghc-mime-types)
+       ("ghc-old-locale" ,ghc-old-locale)
+       ("ghc-semigroups" ,ghc-semigroups)
+       ("ghc-wai" ,ghc-wai)))
+    (arguments
+     `(#:cabal-revision
+       ("2"
+        "17vq38dh7x1kqzfwla1s0rldd5hzm5mcrx49sjlzy8b66gd2n3ac")))
+    (home-page
+     "https://github.com/scotty-web/wai-middleware-static")
+    (synopsis
+     "WAI middleware that serves requests to static files.")
+    (description
+     "WAI middleware that intercepts requests to static files and serves
+them if they exist.")
+    (license license:bsd-3)))
+
+(define-public ghc-wai-app-static
+  (package
+    (name "ghc-wai-app-static")
+    (version "3.1.6.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/wai-app-static/wai-app-static-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0gnwq6ad5m8w8sqq4dzpz23l5rjdphfsf8h9h27lrvv1prkabc6h"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-wai" ,ghc-wai)
+       ("ghc-http-types" ,ghc-http-types)
+       ("ghc-unix-compat" ,ghc-unix-compat)
+       ("ghc-old-locale" ,ghc-old-locale)
+       ("ghc-file-embed" ,ghc-file-embed)
+       ("ghc-cryptonite" ,ghc-cryptonite)
+       ("ghc-memory" ,ghc-memory)
+       ("ghc-http-date" ,ghc-http-date)
+       ("ghc-blaze-html" ,ghc-blaze-html)
+       ("ghc-blaze-markup" ,ghc-blaze-markup)
+       ("ghc-mime-types" ,ghc-mime-types)
+       ("ghc-unordered-containers"
+        ,ghc-unordered-containers)
+       ("ghc-zlib" ,ghc-zlib)
+       ("ghc-wai-extra" ,ghc-wai-extra)
+       ("ghc-optparse-applicative"
+        ,ghc-optparse-applicative)
+       ("ghc-warp" ,ghc-warp)))
+    (native-inputs
+     `(("ghc-hspec" ,ghc-hspec)
+       ("ghc-network" ,ghc-network)
+       ("ghc-temporary" ,ghc-temporary)
+       ("ghc-mockery" ,ghc-mockery)))
+    (home-page
+     "http://www.yesodweb.com/book/web-application-interface")
+    (synopsis "WAI application for static serving")
+    (description "WAI application for static serving.")
+    (license license:expat)))
+
+(define-public ghc-http-media
+  (package
+    (name "ghc-http-media")
+    (version "0.7.1.3")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/http-media/http-media-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0kqjzvh5y8r6x5rw2kgd816w2963c6cbyw2qjvaj2mv59zxzqkrr"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-case-insensitive" ,ghc-case-insensitive)
+       ("ghc-utf8-string" ,ghc-utf8-string)))
+    (native-inputs
+     `(("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-test-framework" ,ghc-test-framework)
+       ("ghc-test-framework-quickcheck2"
+        ,ghc-test-framework-quickcheck2)))
+    (arguments
+     `(#:cabal-revision
+       ("1"
+        "19py5pspx80gg679p9dzqr3iidflppxc1x4vkldamjkidyi406j8")))
+    (home-page "https://github.com/zmthy/http-media")
+    (synopsis
+     "Processing HTTP Content-Type and Accept headers")
+    (description
+     "This library is intended to be a comprehensive solution to parsing
+and selecting quality-indexed values in HTTP headers.  It is capable of
+parsing both media types and language parameters from the Accept and Content
+header families, and can be extended to match against other accept headers
+as well.  Selecting the appropriate header value is achieved by comparing
+a list of server options against the quality-indexed values supplied by
+the client.")
     (license license:expat)))
