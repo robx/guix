@@ -1772,3 +1772,41 @@ declarative and monadic interface.")
      "This package provides an implemenation of Cross-Origin resource sharing
 (CORS) for Wai that aims to be compliant with http://www.w3.org/TR/cors.")
     (license license:expat)))
+
+(define-public ghc-wai-middleware-static
+  (package
+    (name "ghc-wai-middleware-static")
+    (version "0.8.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/wai-middleware-static/wai-middleware-static-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1z5yapcf8j9w71f2na30snmalsajlyi8an2f9qrjdmajabyykr0b"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-cryptonite" ,ghc-cryptonite)
+       ("ghc-memory" ,ghc-memory)
+       ("ghc-expiring-cache-map"
+        ,ghc-expiring-cache-map)
+       ("ghc-http-types" ,ghc-http-types)
+       ("ghc-mime-types" ,ghc-mime-types)
+       ("ghc-old-locale" ,ghc-old-locale)
+       ("ghc-semigroups" ,ghc-semigroups)
+       ("ghc-wai" ,ghc-wai)))
+    (arguments
+     `(#:cabal-revision
+       ("2"
+        "17vq38dh7x1kqzfwla1s0rldd5hzm5mcrx49sjlzy8b66gd2n3ac")))
+    (home-page
+     "https://github.com/scotty-web/wai-middleware-static")
+    (synopsis
+     "WAI middleware that serves requests to static files.")
+    (description
+     "WAI middleware that intercepts requests to static files and serves
+them if they exist.")
+    (license license:bsd-3)))
