@@ -1810,3 +1810,48 @@ declarative and monadic interface.")
      "WAI middleware that intercepts requests to static files and serves
 them if they exist.")
     (license license:bsd-3)))
+
+(define-public ghc-wai-app-static
+  (package
+    (name "ghc-wai-app-static")
+    (version "3.1.6.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/wai-app-static/wai-app-static-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0gnwq6ad5m8w8sqq4dzpz23l5rjdphfsf8h9h27lrvv1prkabc6h"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-wai" ,ghc-wai)
+       ("ghc-http-types" ,ghc-http-types)
+       ("ghc-unix-compat" ,ghc-unix-compat)
+       ("ghc-old-locale" ,ghc-old-locale)
+       ("ghc-file-embed" ,ghc-file-embed)
+       ("ghc-cryptonite" ,ghc-cryptonite)
+       ("ghc-memory" ,ghc-memory)
+       ("ghc-http-date" ,ghc-http-date)
+       ("ghc-blaze-html" ,ghc-blaze-html)
+       ("ghc-blaze-markup" ,ghc-blaze-markup)
+       ("ghc-mime-types" ,ghc-mime-types)
+       ("ghc-unordered-containers"
+        ,ghc-unordered-containers)
+       ("ghc-zlib" ,ghc-zlib)
+       ("ghc-wai-extra" ,ghc-wai-extra)
+       ("ghc-optparse-applicative"
+        ,ghc-optparse-applicative)
+       ("ghc-warp" ,ghc-warp)))
+    (native-inputs
+     `(("ghc-hspec" ,ghc-hspec)
+       ("ghc-network" ,ghc-network)
+       ("ghc-temporary" ,ghc-temporary)
+       ("ghc-mockery" ,ghc-mockery)))
+    (home-page
+     "http://www.yesodweb.com/book/web-application-interface")
+    (synopsis "WAI application for static serving")
+    (description "WAI application for static serving.")
+    (license license:expat)))
