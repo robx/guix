@@ -13529,7 +13529,8 @@ data types.")
     (build-system haskell-build-system)
     (inputs
      `(("ghc-base-prelude" ,ghc-base-prelude)
-       ("ghc-semigroups" ,ghc-semigroups)))
+       ("ghc-semigroups" ,ghc-semigroups)
+       ("ghc-deferred-folds" ,ghc-deferred-folds)))
     (native-inputs
      `(("ghc-quickcheck" ,ghc-quickcheck)
        ("ghc-quickcheck-instances"
@@ -13645,3 +13646,33 @@ property associated with the type.")
     (description
      "Abstractions over deferred folds.")
     (license license:expat)))
+
+(define-public ghc-expiring-cache-map
+  (package
+    (name "ghc-expiring-cache-map")
+    (version "0.0.6.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/expiring-cache-map/expiring-cache-map-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1fb47hsn06ybn2yzw7r6pjkmvvfpbdx7wjhbpxcywilbjyac4fqf"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-hashable" ,ghc-hashable)
+       ("ghc-unordered-containers"
+        ,ghc-unordered-containers)))
+    (home-page
+     "https://github.com/elblake/expiring-cache-map")
+    (synopsis "General purpose simple caching.")
+    (description
+     "A simple general purpose shared state cache map with
+automatic expiration of values, for caching the results of
+accessing a resource such as reading a file. With variations
+for Ord and Hashable keys using Data.Map.Strict and Data.HashMap.Strict,
+respectively.")
+    (license license:bsd-3)))
