@@ -13584,3 +13584,27 @@ zero-copy slicing (thereby saving 2 words).  Consequently, the
 memory footprint of a (boxed) 'ShortText' value is 4 words
 (2 words when unboxed) plus the length of the UTF-8 encoded payload.")
     (license license:bsd-3)))
+
+(define-public ghc-data-checked
+  (package
+    (name "ghc-data-checked")
+    (version "0.3")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/data-checked/data-checked-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0xjn7iqlsgi51h8gz4x40kc2qb5lwf6nw5kjwgkck1w5gjfd11yw"))))
+    (build-system haskell-build-system)
+    (home-page "https://github.com/mvv/data-checked")
+    (synopsis
+     "Type-indexed runtime-checked properties")
+    (description
+     "This package provides a (phantom) type-indexed newtype
+evidence-wrapper for values that are checked to satisfy the
+property associated with the type.")
+    (license license:bsd-3)))
