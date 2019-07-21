@@ -1730,3 +1730,45 @@ declarative and monadic interface.")
     (description
      "Provide a bridge between WAI and the websockets package.")
     (license license:expat)))
+
+(define-public ghc-wai-cors
+  (package
+    (name "ghc-wai-cors")
+    (version "0.2.6")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/wai-cors/wai-cors-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "11m9d8hn9pb9brprz0kglldmcqj83kjkjdwdpxdbl12430ii1ina"))
+       (patches (search-patches "ghc-wai-cors-skip-phantomjs-tests.patch"))))
+    (build-system haskell-build-system)
+    (arguments
+     ;; required for unclear reasons; those flags should default to false
+     `(#:configure-flags '("--flags=-wai-2" "--flags=-wai-1")))
+    (inputs
+     `(("ghc-attoparsec" ,ghc-attoparsec)
+       ("ghc-base-unicode-symbols"
+        ,ghc-base-unicode-symbols)
+       ("ghc-case-insensitive" ,ghc-case-insensitive)
+       ("ghc-http-types" ,ghc-http-types)
+       ("ghc-wai" ,ghc-wai)))
+    (native-inputs
+     `(("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-hunit" ,ghc-tasty-hunit)
+       ("ghc-transformers-compat" ,ghc-transformers-compat)
+       ("ghc-wai-extra" ,ghc-wai-extra)
+       ("ghc-wai-websockets" ,ghc-wai-websockets)
+       ("ghc-warp" ,ghc-warp)
+       ("ghc-websockets" ,ghc-websockets)))
+    (home-page
+     "https://github.com/larskuhtz/wai-cors")
+    (synopsis "CORS for WAI")
+    (description
+     "This package provides an implemenation of Cross-Origin resource sharing
+(CORS) for Wai that aims to be compliant with http://www.w3.org/TR/cors.")
+    (license license:expat)))
