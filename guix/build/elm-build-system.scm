@@ -22,9 +22,9 @@
   #:use-module (ice-9 match)
   #:use-module (ice-9 popen)
   #:use-module (ice-9 textual-ports)
-  #:use-module (json parser)
   #:use-module (rnrs bytevectors)
   #:use-module (srfi srfi-26)
+  #:use-module (guix build json)
   #:use-module (guix build utils)
 
   #:export(build-versions.dat
@@ -133,8 +133,8 @@ modules."
   (catch 'system-error
     (lambda _
       (let* ((filename (string-append pkg "/elm.json"))
-             (json (json->scm (open-input-file filename))))
-        `(,(hash-ref json "name") . ,(hash-ref json "version"))))
+             (json (read-json (open-input-file filename))))
+        `(,(assoc-ref json "name") . ,(assoc-ref json "version"))))
     (lambda args
       (if (= ENOENT (system-error-errno args))
           #f

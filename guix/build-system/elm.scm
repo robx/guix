@@ -115,7 +115,7 @@ NAME and VERSION."
                                 #:inputs inputs
                                 #:system system
                                 #:outputs outputs
-                                #:modules '((guix build utils) (guix build elm-build-system) (json parser))
+                                #:modules '((guix build utils) (guix build elm-build-system) (guix build json))
                                 #:allowed-references #f
                                 #:guile-for-build
                                 (guile-for-build store guile system)))
@@ -137,7 +137,7 @@ NAME and VERSION."
                                 #:inputs inputs
                                 #:system system
                                 #:outputs outputs
-                                #:modules '((guix build utils) (guix build elm-build-system) (json parser))
+                                #:modules '((guix build utils) (guix build elm-build-system) (guix build json))
                                 #:allowed-references #f
                                 #:guile-for-build
                                 (guile-for-build store guile system)))
