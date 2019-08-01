@@ -14052,3 +14052,27 @@ files and directories in a portable way.")
     (description
      "This package provides Internet Protocol data structures")
     (license license:bsd-3)))
+
+(define-public ghc-type-hint
+  (package
+    (name "ghc-type-hint")
+    (version "0.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/type-hint/type-hint-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1fcrma7m6y7i1y42rzhv7qch8xkk93lkh1767saw4hsb9fzwsq8i"))))
+    (build-system haskell-build-system)
+    (home-page "https://github.com/mvv/type-hint")
+    (synopsis
+     "Guide type inference with proxy values")
+    (description
+     "This package provides 'Proxy' values for various types
+from the base library and functions to use these values as
+hints for type inference.")
+    (license license:bsd-3)))
