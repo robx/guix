@@ -14171,3 +14171,40 @@ This library provides placeholders that produce better messages when
 evaluated at run-time and also generate compile-time warnings so that
 they do not get forgotten so easily.")
     (license license:bsd-3)))
+
+(define-public ghc-binary-parser
+  (package
+    (name "ghc-binary-parser")
+    (version "0.5.5")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/binary-parser/binary-parser-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1cs3zrhgnng2h84xnnvqcy6yrdm0xay1494dsa612y590s773aqx"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-base-prelude" ,ghc-base-prelude)))
+    (native-inputs
+     `(("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)
+       ("ghc-tasty-hunit" ,ghc-tasty-hunit)
+       ("ghc-quickcheck-instances"
+        ,ghc-quickcheck-instances)
+       ("ghc-rerebase" ,ghc-rerebase)))
+    (arguments
+     `(#:tests?  ; rely on outdated test library versions
+       #f        ; https://github.com/nikita-volkov/binary-parser/pull/3
+       #:cabal-revision
+       ("3"
+        "14n41yazmks2qw0v4krxcqw3ac0wdy2z53d0qz0rdjcd94fpghjf")))
+    (home-page
+     "https://github.com/nikita-volkov/binary-parser")
+    (synopsis
+     "A highly-efficient but limited parser API specialised for bytestrings")
+    (description "")
+    (license license:expat)))
