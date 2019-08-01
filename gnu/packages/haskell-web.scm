@@ -1855,3 +1855,43 @@ them if they exist.")
     (synopsis "WAI application for static serving")
     (description "WAI application for static serving.")
     (license license:expat)))
+
+(define-public ghc-http-media
+  (package
+    (name "ghc-http-media")
+    (version "0.7.1.3")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/http-media/http-media-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0kqjzvh5y8r6x5rw2kgd816w2963c6cbyw2qjvaj2mv59zxzqkrr"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-case-insensitive" ,ghc-case-insensitive)
+       ("ghc-utf8-string" ,ghc-utf8-string)))
+    (native-inputs
+     `(("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-test-framework" ,ghc-test-framework)
+       ("ghc-test-framework-quickcheck2"
+        ,ghc-test-framework-quickcheck2)))
+    (arguments
+     `(#:cabal-revision
+       ("1"
+        "19py5pspx80gg679p9dzqr3iidflppxc1x4vkldamjkidyi406j8")))
+    (home-page "https://github.com/zmthy/http-media")
+    (synopsis
+     "Processing HTTP Content-Type and Accept headers")
+    (description
+     "This library is intended to be a comprehensive solution to parsing
+and selecting quality-indexed values in HTTP headers.  It is capable of
+parsing both media types and language parameters from the Accept and Content
+header families, and can be extended to match against other accept headers
+as well.  Selecting the appropriate header value is achieved by comparing
+a list of server options against the quality-indexed values supplied by
+the client.")
+    (license license:expat)))
