@@ -13852,3 +13852,28 @@ ExceptT instances in scope.")
      "This package provides a canonical anonymous 1-tuple type missing from
 Haskell for attaching typeclass instances.")
     (license license:bsd-3)))
+
+(define-public ghc-data-bword
+  (package
+    (name "ghc-data-bword")
+    (version "0.1.0.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/data-bword/data-bword-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0zfvk7b7qi6inra0kc03rhsic2rj0818n4i03lfwzvb5g22izw3h"))))
+    (build-system haskell-build-system)
+    (native-inputs
+     `(("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)))
+    (home-page "https://github.com/mvv/data-bword")
+    (synopsis
+     "Extra operations on binary words of fixed length")
+    (description
+     "This package provides extra (vs. 'Data.Bits') operations on binary words of fixed length.")
+    (license license:bsd-3)))
