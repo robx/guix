@@ -13907,3 +13907,24 @@ Haskell for attaching typeclass instances.")
 fixed-length binary word data types.  Signed and unsigned
 96, 128, 160, 192, 224, and 256-bit types are predefined.")
     (license license:bsd-3)))
+
+(define-public ghc-data-endian
+  (package
+    (name "ghc-data-endian")
+    (version "0.1.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/data-endian/data-endian-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1h1abz87nha7cpw50yvf8fwvcca350wnnz2d3z9k30sg6wq4y7cc"))))
+    (build-system haskell-build-system)
+    (home-page "https://github.com/mvv/data-endian")
+    (synopsis "Endian-sensitive data")
+    (description
+     "This package provides helpers for converting endian-sensitive data.")
+    (license license:bsd-3)))
