@@ -13779,3 +13779,26 @@ all of ExceptT's monad class instances. Therefore, you may have to declare
 import Control.Monad.Except () at the top of your file to get all of the
 ExceptT instances in scope.")
     (license license:bsd-3)))
+
+(define-public ghc-monad-time
+  (package
+    (name "ghc-monad-time")
+    (version "0.3.1.0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/monad-time/monad-time-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0z30c0k5bqlz86vwajnm6kj26i09zx6dzqwd00z6ba8hqyzm1x0a"))))
+    (build-system haskell-build-system)
+    (home-page
+     "https://github.com/scrive/monad-time")
+    (synopsis
+     "Type class for monads which carry the notion of the current time.")
+    (description
+     "'MonadTime' type class for monads which carry the notion of the current time.")
+    (license license:bsd-3)))
