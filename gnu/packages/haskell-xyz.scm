@@ -13802,3 +13802,25 @@ ExceptT instances in scope.")
     (description
      "'MonadTime' type class for monads which carry the notion of the current time.")
     (license license:bsd-3)))
+
+(define-public ghc-bug
+  (package
+    (name "ghc-bug")
+    (version "1.0.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/bug/bug-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1xfynvp5fyn46gg3p5qq9cmb1dnw2dyf3bz6w5wdvikfvs19dwhq"))))
+    (build-system haskell-build-system)
+    (home-page
+     "https://github.com/nikita-volkov/bug")
+    (synopsis
+     "Better alternatives to the \"error\" function")
+    (description "")
+    (license license:expat)))
