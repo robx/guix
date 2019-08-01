@@ -13993,3 +13993,27 @@ fixed-length binary word data types.  Signed and unsigned
      "This package provides an interface for converting
 between data and its (human-friendly) textual representation.")
     (license license:bsd-3)))
+
+(define-public ghc-directory
+  (package
+    (name "ghc-directory")
+    (version "1.3.1.5")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/directory/directory-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0zkqihmdfz7bzv3sxh1p9ijl4vra880kfy3qy9h96flq7d2if0f2"))))
+    (build-system haskell-build-system)
+    (home-page
+     "http://hackage.haskell.org/package/directory")
+    (synopsis
+     "Platform-agnostic library for filesystem operations")
+    (description
+     "This library provides a basic set of operations for manipulating
+files and directories in a portable way.")
+    (license license:bsd-3)))
