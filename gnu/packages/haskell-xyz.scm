@@ -14358,3 +14358,32 @@ to bytestring-strict-builder.")
 the location of the failure call.  The location message includes the file name,
 line and column numbers.")
     (license license:bsd-3)))
+
+(define-public ghc-ranged-sets
+  (package
+    (name "ghc-ranged-sets")
+    (version "0.4.0") ;; not stackage LTS 8.4
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/Ranged-sets/Ranged-sets-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1skd2a6yw7dd5vq8x81kwh28gi8sgyzg9qqqyadxmgpvy11sh9ab"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-hunit" ,ghc-hunit)
+       ("ghc-quickcheck" ,ghc-quickcheck)))
+    (home-page
+     "https://github.com/PaulJohnson/Ranged-sets")
+    (synopsis "Ranged sets for Haskell")
+    (description
+     "A ranged set is an ordered list of ranges.
+This allows sets such as all reals x such that:
+(0.25 < x <= 0.75 or 1.4 <= x < 2.3 or 4.5 < x).
+Alternatively you can have all strings s such that:
+(\"F\" <= s < \"G\")")
+    (license license:bsd-3)))
