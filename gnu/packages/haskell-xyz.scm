@@ -14309,3 +14309,28 @@ to bytestring-strict-builder.")
     (description
      "multi-line string / here document using QuasiQuotes")
     (license license:public-domain)))
+
+(define-public ghc-interpolatedstring-perl6
+  (package
+    (name "ghc-interpolatedstring-perl6")
+    (version "1.0.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/interpolatedstring-perl6/interpolatedstring-perl6-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0n3j6qvzp6as5ji93rn0sy873w5hdsplik51lkrah42cl95vmbay"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-haskell-src-meta" ,ghc-haskell-src-meta)))
+    (home-page
+     "http://hackage.haskell.org/package/interpolatedstring-perl6")
+    (synopsis
+     "QuasiQuoter for Perl6-style multi-line interpolated strings")
+    (description
+     "QuasiQuoter for Perl6-style multi-line interpolated strings.")
+    (license license:public-domain)))
