@@ -13676,3 +13676,40 @@ accessing a resource such as reading a file. With variations
 for Ord and Hashable keys using Data.Map.Strict and Data.HashMap.Strict,
 respectively.")
     (license license:bsd-3)))
+
+(define-public ghc-insert-ordered-containers
+  (package
+    (name "ghc-insert-ordered-containers")
+    (version "0.2.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/insert-ordered-containers/insert-ordered-containers-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1ikjhg0pdfpnx1d645r92k2dwlk7y935j1w5lcsk23nzpwhbkxja"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-aeson" ,ghc-aeson)
+       ("ghc-base-compat" ,ghc-base-compat)
+       ("ghc-hashable" ,ghc-hashable)
+       ("ghc-lens" ,ghc-lens)
+       ("ghc-semigroupoids" ,ghc-semigroupoids)
+       ("ghc-semigroups" ,ghc-semigroups)
+       ("ghc-unordered-containers"
+        ,ghc-unordered-containers)))
+    (native-inputs
+     `(("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)
+       ("ghc-quickcheck" ,ghc-quickcheck)))
+    (home-page
+     "https://github.com/phadej/insert-ordered-containers#readme")
+    (synopsis
+     "Associative containers retaining insertion order for traversals.")
+    (description
+     "Associative containers retaining insertion order for traversals.
+The implementation is based on `unordered-containers`.")
+    (license license:bsd-3)))
