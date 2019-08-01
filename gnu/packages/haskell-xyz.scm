@@ -13960,3 +13960,36 @@ fixed-length binary word data types.  Signed and unsigned
     (description
      "This package provides a common API for serialization libraries like <http://hackage.haskell.org/package/binary binary> and <http://hackage.haskell.org/package/cereal cereal>.")
     (license license:bsd-3)))
+
+(define-public ghc-data-textual
+  (package
+    (name "ghc-data-textual")
+    (version "0.3.0.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/data-textual/data-textual-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0c4qs923dj4jnvvkjvbij0c1yg922iw66140cq6wb1m4h6q31ia4"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-text-latin1" ,ghc-text-latin1)
+       ("ghc-text-printer" ,ghc-text-printer)
+       ("ghc-parsers" ,ghc-parsers)))
+    (native-inputs
+     `(("ghc-test-framework" ,ghc-test-framework)
+       ("ghc-test-framework-quickcheck2"
+        ,ghc-test-framework-quickcheck2)
+       ("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-type-hint" ,ghc-type-hint)))
+    (home-page "https://github.com/mvv/data-textual")
+    (synopsis
+     "Human-friendly textual representations.")
+    (description
+     "This package provides an interface for converting
+between data and its (human-friendly) textual representation.")
+    (license license:bsd-3)))
