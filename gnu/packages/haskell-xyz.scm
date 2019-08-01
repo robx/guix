@@ -14387,3 +14387,45 @@ This allows sets such as all reals x such that:
 Alternatively you can have all strings s such that:
 (\"F\" <= s < \"G\")")
     (license license:bsd-3)))
+
+(define-public ghc-postgresql-binary
+  (package
+    (name "ghc-postgresql-binary")
+    (version "0.12.1.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/postgresql-binary/postgresql-binary-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "10h5299fxqmfz0kxyvivfy396q35gzg60spnjagyha33kx5m3bc3"))))
+    (build-system haskell-build-system)
+    (arguments `(#:tests? #f)) ; relies on running postgres
+    (inputs
+     `(("ghc-binary-parser" ,ghc-binary-parser)
+       ("ghc-bytestring-strict-builder"
+        ,ghc-bytestring-strict-builder)
+       ("ghc-aeson" ,ghc-aeson)
+       ("ghc-uuid" ,ghc-uuid)
+       ("ghc-scientific" ,ghc-scientific)
+       ("ghc-vector" ,ghc-vector)
+       ("ghc-network-ip" ,ghc-network-ip)
+       ("ghc-unordered-containers"
+        ,ghc-unordered-containers)
+       ("ghc-loch-th" ,ghc-loch-th)
+       ("ghc-placeholders" ,ghc-placeholders)
+       ("ghc-base-prelude" ,ghc-base-prelude)))
+    (home-page
+     "https://github.com/nikita-volkov/postgresql-binary")
+    (synopsis
+     "Encoders and decoders for the PostgreSQL's binary format")
+    (description
+     "An API for dealing with PostgreSQL's binary data format.
+It can be used to implement performant bindings to Postgres.
+E.g., hasql is based on this library.  It supports all Postgres
+versions starting from 8.3 and is tested against 8.3, 9.3 and 9.5
+with the integer_datetimes setting off and on.")
+    (license license:expat)))
