@@ -14208,3 +14208,38 @@ they do not get forgotten so easily.")
      "A highly-efficient but limited parser API specialised for bytestrings")
     (description "")
     (license license:expat)))
+
+(define-public ghc-bytestring-tree-builder
+  (package
+    (name "ghc-bytestring-tree-builder")
+    (version "0.2.7.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/bytestring-tree-builder/bytestring-tree-builder-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "03h2nmhyrr63gw4xmflsrmwf80gvayhs32wnpg3k9aqfjzpz4bd1"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-semigroups" ,ghc-semigroups)
+       ("ghc-base-prelude" ,ghc-base-prelude)))
+    (native-inputs
+     `(("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)
+       ("ghc-tasty-hunit" ,ghc-tasty-hunit)
+       ("ghc-quickcheck-instances"
+        ,ghc-quickcheck-instances)
+       ("ghc-quickcheck" ,ghc-quickcheck)))
+    (home-page
+     "https://github.com/nikita-volkov/bytestring-tree-builder")
+    (synopsis
+     "A very efficient ByteString builder implementation based on the binary tree")
+    (description
+     "According to the benchmarks this builder implementation beats all the alternatives.
+It is especially well-suited for generating strict bytestrings, beating the standard
+builder by at least the factor of 4.")
+    (license license:expat)))
