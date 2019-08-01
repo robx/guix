@@ -14286,3 +14286,26 @@ encoders from the postgresql-binary library have shown a stable performance
 improvement by factors of up to 10 after the migration from the standard builder
 to bytestring-strict-builder.")
     (license license:expat)))
+
+(define-public ghc-heredoc
+  (package
+    (name "ghc-heredoc")
+    (version "0.2.0.0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/heredoc/heredoc-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0h0g2f7yscwl1ba1yn3jnz2drvd6ns9m910hwlmq3kdq3k39y3f9"))))
+    (build-system haskell-build-system)
+    (home-page
+     "http://hackage.haskell.org/package/heredoc")
+    (synopsis
+     "multi-line string / here document using QuasiQuotes")
+    (description
+     "multi-line string / here document using QuasiQuotes")
+    (license license:public-domain)))
