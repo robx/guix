@@ -14076,3 +14076,33 @@ files and directories in a portable way.")
 from the base library and functions to use these values as
 hints for type inference.")
     (license license:bsd-3)))
+
+(define-public ghc-concise
+  (package
+    (name "ghc-concise")
+    (version "0.1.0.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/concise/concise-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "09crgc6gjfidlad6263253xx1di6wfhc9awhira21s0z7rddy9sw"))))
+    (build-system haskell-build-system)
+    (inputs `(("ghc-lens" ,ghc-lens)))
+    (native-inputs
+     `(("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)
+       ("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-quickcheck-instances"
+        ,ghc-quickcheck-instances)))
+    (home-page
+     "https://github.com/frasertweedale/hs-concise")
+    (synopsis "Utilities for Control.Lens.Cons")
+    (description
+     "concise provides a handful of functions to extend
+what you can do with Control.Lens.Cons.")
+    (license license:bsd-3)))
