@@ -13928,3 +13928,35 @@ fixed-length binary word data types.  Signed and unsigned
     (description
      "This package provides helpers for converting endian-sensitive data.")
     (license license:bsd-3)))
+
+(define-public ghc-data-serializer
+  (package
+    (name "ghc-data-serializer")
+    (version "0.3.4")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/data-serializer/data-serializer-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1ijy8l5lxmm8wpzx4h2vh9q21zz66xgh979s32aa4b16l9m1b4z7"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-semigroups" ,ghc-semigroups)
+       ("ghc-cereal" ,ghc-cereal)
+       ("ghc-data-endian" ,ghc-data-endian)
+       ("ghc-parsers" ,ghc-parsers)
+       ("ghc-split" ,ghc-split)))
+    (native-inputs
+     `(("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)))
+    (home-page
+     "https://github.com/mvv/data-serializer")
+    (synopsis
+     "Common API for serialization libraries")
+    (description
+     "This package provides a common API for serialization libraries like <http://hackage.haskell.org/package/binary binary> and <http://hackage.haskell.org/package/cereal cereal>.")
+    (license license:bsd-3)))
