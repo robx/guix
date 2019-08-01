@@ -14144,3 +14144,30 @@ what you can do with Control.Lens.Cons.")
     (synopsis "Law-abiding lenses for aeson")
     (description "Law-abiding lenses for aeson")
     (license license:expat)))
+
+(define-public ghc-placeholders
+  (package
+    (name "ghc-placeholders")
+    (version "0.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/placeholders/placeholders-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0ih35n2pw5gr9ggj2xz5zfcs4bdk200fdw6q9hdy3xna7maphak5"))))
+    (build-system haskell-build-system)
+    (home-page
+     "http://github.com/ahammar/placeholders")
+    (synopsis
+     "Placeholders for use while developing Haskell code")
+    (description
+     "While working on some Haskell code, it is often useful to work
+incrementally by inserting undefined as a placeholder for missing code.
+This library provides placeholders that produce better messages when
+evaluated at run-time and also generate compile-time warnings so that
+they do not get forgotten so easily.")
+    (license license:bsd-3)))
