@@ -14334,3 +14334,27 @@ to bytestring-strict-builder.")
     (description
      "QuasiQuoter for Perl6-style multi-line interpolated strings.")
     (license license:public-domain)))
+
+(define-public ghc-loch-th
+  (package
+    (name "ghc-loch-th")
+    (version "0.2.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/loch-th/loch-th-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1hvdkcyrlnv65q8x8h0441x30wr9bbfbg3961xd3fy9an5r961fc"))))
+    (build-system haskell-build-system)
+    (home-page "https://github.com/liskin/loch-th")
+    (synopsis
+     "Support for precise error locations in source files (Template Haskell version)")
+    (description
+     "This module provides a Template Haskell based mechanism to tag failures with
+the location of the failure call.  The location message includes the file name,
+line and column numbers.")
+    (license license:bsd-3)))
