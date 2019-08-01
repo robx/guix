@@ -45,12 +45,14 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
   #:use-module (gnu packages compression)
+  #:use-module (gnu packages databases)
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages gcc)
   #:use-module (gnu packages gl)
   #:use-module (gnu packages graphviz)
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages haskell-apps)
+  #:use-module (gnu packages haskell)
   #:use-module (gnu packages haskell-check)
   #:use-module (gnu packages haskell-crypto)
   #:use-module (gnu packages haskell-web)
@@ -8888,6 +8890,33 @@ parsing, and so on.  Finally, Text.Parse is a proposed replacement for the
 standard Read class, for better deserialisation of Haskell values from
 Strings.")
     (license license:lgpl2.1)))
+
+(define-public ghc-postgresql-libpq
+  (package
+    (name "ghc-postgresql-libpq")
+    (version "0.9.4.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/postgresql-libpq/postgresql-libpq-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1y86kysakfcf3zq252yl2llrx3765vxvkdwda4q5ql7ikv3m786f"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("postgresql" ,postgresql)))
+    (home-page
+     "https://github.com/phadej/postgresql-libpq")
+    (synopsis "low-level binding to libpq")
+    (description
+     "This is a binding to libpq: the C application programmer's interface
+to PostgreSQL.  libpq is a set of library functions that allow client
+programs to pass queries to the PostgreSQL backend server and to receive
+the results of these queries.")
+    (license license:bsd-3)))
 
 (define-public ghc-pqueue
   (package
