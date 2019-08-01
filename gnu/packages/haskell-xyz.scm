@@ -14243,3 +14243,46 @@ they do not get forgotten so easily.")
 It is especially well-suited for generating strict bytestrings, beating the standard
 builder by at least the factor of 4.")
     (license license:expat)))
+
+(define-public ghc-bytestring-strict-builder
+  (package
+    (name "ghc-bytestring-strict-builder")
+    (version "0.4.5.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/bytestring-strict-builder/bytestring-strict-builder-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "17n6ll8k26312fgxbhws1yrswvy5dbsgyf57qksnj0akdssysy8q"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-semigroups" ,ghc-semigroups)
+       ("ghc-base-prelude" ,ghc-base-prelude)))
+    (native-inputs
+     `(("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)
+       ("ghc-tasty-hunit" ,ghc-tasty-hunit)
+       ("ghc-quickcheck-instances"
+        ,ghc-quickcheck-instances)
+       ("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-rerebase" ,ghc-rerebase)))
+    (arguments
+     `(#:cabal-revision
+       ("1"
+        "1snn8qb17maa76zji75i4yfz9x8ci16xp6zwg6kgwb33lf06imnd")))
+    (home-page
+     "https://github.com/nikita-volkov/bytestring-strict-builder")
+    (synopsis
+     "An efficient strict bytestring builder")
+    (description
+     "According to https://github.com/nikita-volkov/bytestring-builders-benchmark,
+this library provides on average the fastest builder of strict bytestrings.
+Practical benchmarks have proven it to be highly performant as well.  The
+encoders from the postgresql-binary library have shown a stable performance
+improvement by factors of up to 10 after the migration from the standard builder
+to bytestring-strict-builder.")
+    (license license:expat)))
