@@ -13877,3 +13877,33 @@ Haskell for attaching typeclass instances.")
     (description
      "This package provides extra (vs. 'Data.Bits') operations on binary words of fixed length.")
     (license license:bsd-3)))
+
+(define-public ghc-data-dword
+  (package
+    (name "ghc-data-dword")
+    (version "0.3.1.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/data-dword/data-dword-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "084invjg8zj7ndxnz9clqmq06ch47k1d9lhxwap6xs0x4807crvb"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-hashable" ,ghc-hashable)
+       ("ghc-data-bword" ,ghc-data-bword)))
+    (native-inputs
+     `(("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)))
+    (home-page "https://github.com/mvv/data-dword")
+    (synopsis
+     "Stick two binary words together to get a bigger one")
+    (description
+     "This package provides Template Haskell utilities for declaring
+fixed-length binary word data types.  Signed and unsigned
+96, 128, 160, 192, 224, and 256-bit types are predefined.")
+    (license license:bsd-3)))
