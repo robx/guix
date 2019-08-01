@@ -14017,3 +14017,38 @@ between data and its (human-friendly) textual representation.")
      "This library provides a basic set of operations for manipulating
 files and directories in a portable way.")
     (license license:bsd-3)))
+
+(define-public ghc-network-ip
+  (package
+    (name "ghc-network-ip")
+    (version "0.3.0.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/network-ip/network-ip-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "1zjy232pamkd3977cyaq5w5r6ksbpqpgzzlds15zrahjccirs9gf"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-data-default-class"
+        ,ghc-data-default-class)
+       ("ghc-data-endian" ,ghc-data-endian)
+       ("ghc-data-dword" ,ghc-data-dword)
+       ("ghc-type-hint" ,ghc-type-hint)
+       ("ghc-hashable" ,ghc-hashable)
+       ("ghc-data-serializer" ,ghc-data-serializer)
+       ("ghc-text-printer" ,ghc-text-printer)
+       ("ghc-data-textual" ,ghc-data-textual)
+       ("ghc-parsers" ,ghc-parsers)))
+    (native-inputs
+     `(("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)))
+    (home-page "https://github.com/mvv/network-ip")
+    (synopsis "Internet Protocol data structures")
+    (description
+     "This package provides Internet Protocol data structures")
+    (license license:bsd-3)))
