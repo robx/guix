@@ -13713,3 +13713,30 @@ respectively.")
      "Associative containers retaining insertion order for traversals.
 The implementation is based on `unordered-containers`.")
     (license license:bsd-3)))
+
+(define-public ghc-protolude
+  (package
+    (name "ghc-protolude")
+    (version "0.2.3")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/protolude/protolude-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0zzkyxz0vmcbncpid7gp72fpjj0fla3gqhlfkij5c5lg12skjgfj"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-async" ,ghc-async)
+       ("ghc-hashable" ,ghc-hashable)
+       ("ghc-mtl-compat" ,ghc-mtl-compat)
+       ("ghc-transformers-compat"
+        ,ghc-transformers-compat)))
+    (home-page "https://github.com/sdiehl/protolude")
+    (synopsis "A small prelude.")
+    (description
+     "A sensible set of defaults for writing custom Preludes.")
+    (license license:expat)))
