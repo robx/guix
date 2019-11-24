@@ -14458,3 +14458,51 @@ E.g., hasql is based on this library.  It supports all Postgres
 versions starting from 8.3 and is tested against 8.3, 9.3 and 9.5
 with the integer_datetimes setting off and on.")
     (license license:expat)))
+
+(define-public ghc-hasql
+  (package
+    (name "ghc-hasql")
+    (version "1.4")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/hasql/hasql-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0j2arb96i1dinpz1yxl2cjl4qhbljk9yph52cj9az50mvl8vx3w4"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-attoparsec" ,ghc-attoparsec)
+       ("ghc-postgresql-binary" ,ghc-postgresql-binary)
+       ("ghc-postgresql-libpq" ,ghc-postgresql-libpq)
+       ("ghc-bytestring-strict-builder"
+        ,ghc-bytestring-strict-builder)
+       ("ghc-dlist" ,ghc-dlist)
+       ("ghc-vector" ,ghc-vector)
+       ("ghc-hashtables" ,ghc-hashtables)
+       ("ghc-text-builder" ,ghc-text-builder)
+       ("ghc-hashable" ,ghc-hashable)
+       ("ghc-data-default-class"
+        ,ghc-data-default-class)
+       ("ghc-profunctors" ,ghc-profunctors)
+       ("ghc-contravariant-extras"
+        ,ghc-contravariant-extras)
+       ("ghc-contravariant" ,ghc-contravariant)
+       ("ghc-loch-th" ,ghc-loch-th)
+       ("ghc-placeholders" ,ghc-placeholders)
+       ("ghc-base-prelude" ,ghc-base-prelude)))
+    (arguments
+     `(#:tests?  ; tests require a running postgres
+       #f))
+    (home-page
+     "https://github.com/nikita-volkov/hasql")
+    (synopsis
+     "An efficient PostgreSQL driver and a flexible mapping API")
+    (description
+     "This package is the root of the hasql ecosystem.
+The API is completely disinfected from exceptions.
+All error-reporting is explicit and is presented using the Either type.")
+    (license license:expat)))
