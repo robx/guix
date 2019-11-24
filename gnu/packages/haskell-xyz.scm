@@ -14603,3 +14603,43 @@ of <https://hackage.haskell.org/package/configurator configurator> and
 Its aim is primarily to allow updating programs that depend on configurator-ng to new versions
 of GHC without changing the configuration file format.")
     (license license:bsd-3)))
+
+(define-public ghc-cassava
+  (package
+    (name "ghc-cassava")
+    (version "0.5.1.0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/cassava/cassava-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0xs2c5lpy0g5lsmp2cx0dm5lnxij7cgry6xd5gsn3bfdlap8lb3n"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-attoparsec" ,ghc-attoparsec)
+       ("ghc-hashable" ,ghc-hashable)
+       ("ghc-scientific" ,ghc-scientific)
+       ("ghc-unordered-containers"
+        ,ghc-unordered-containers)
+       ("ghc-vector" ,ghc-vector)
+       ("ghc-only" ,ghc-only)
+       ("ghc-text-short" ,ghc-text-short)
+       ("ghc-bytestring-builder"
+        ,ghc-bytestring-builder)))
+    (arguments
+     `(#:tests? ; require outdated quickcheck version
+       #f
+       #:cabal-revision
+       ("2"
+        "13mbhan3agzf8ki8hcac1xf50h9nbzx2b47zjqrch2050v6xa351")))
+    (home-page "https://github.com/hvr/cassava")
+    (synopsis "A CSV parsing and encoding library")
+    (description
+     "cassava is a library for parsing and encoding [RFC 4180](https://tools.ietf.org/html/rfc4180)
+compliant [comma-separated values (CSV)](https://en.wikipedia.org/wiki/Comma-separated_values) data,
+which is a textual line-oriented format commonly used for exchanging tabular data.")
+    (license license:bsd-3)))
