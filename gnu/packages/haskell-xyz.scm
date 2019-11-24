@@ -14506,3 +14506,31 @@ with the integer_datetimes setting off and on.")
 The API is completely disinfected from exceptions.
 All error-reporting is explicit and is presented using the Either type.")
     (license license:expat)))
+
+(define-public ghc-hasql-pool
+  (package
+    (name "ghc-hasql-pool")
+    (version "0.5.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/hasql-pool/hasql-pool-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "0agl5ilp0amsp9pidhmgivdyaq43x3xi7hb80c91n9l92pv6163k"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-resource-pool" ,ghc-resource-pool)
+       ("ghc-hasql" ,ghc-hasql)
+       ("ghc-base-prelude" ,ghc-base-prelude)))
+    (arguments
+     `(#:tests?  ; tests require a running postgres
+       #f))
+    (home-page
+     "https://github.com/nikita-volkov/hasql-pool")
+    (synopsis "A pool of connections for Hasql")
+    (description "A pool of connections for Hasql")
+    (license license:expat)))
