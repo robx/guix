@@ -14534,3 +14534,36 @@ All error-reporting is explicit and is presented using the Either type.")
     (synopsis "A pool of connections for Hasql")
     (description "A pool of connections for Hasql")
     (license license:expat)))
+
+(define-public ghc-hasql-transaction
+  (package
+    (name "ghc-hasql-transaction")
+    (version "0.7.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/hasql-transaction/hasql-transaction-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "13d5zisr34bdbiypvpcb114d4c9yi6pyb9wnhigqpwd90vzpzsb5"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-hasql" ,ghc-hasql)
+       ("ghc-bytestring-tree-builder"
+        ,ghc-bytestring-tree-builder)
+       ("ghc-contravariant" ,ghc-contravariant)
+       ("ghc-contravariant-extras"
+        ,ghc-contravariant-extras)
+       ("ghc-base-prelude" ,ghc-base-prelude)))
+    (arguments
+     `(#:tests?  ; tests require a running postgres
+       #f))
+    (home-page
+     "https://github.com/nikita-volkov/hasql-transaction")
+    (synopsis
+     "A composable abstraction over retryable transactions for Hasql")
+    (description "A composable abstraction over retryable transactions for Hasql")
+    (license license:expat)))
