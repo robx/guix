@@ -1895,3 +1895,60 @@ as well.  Selecting the appropriate header value is achieved by comparing
 a list of server options against the quality-indexed values supplied by
 the client.")
     (license license:expat)))
+
+(define-public ghc-swagger2
+  (package
+    (name "ghc-swagger2")
+    (version "2.3.1.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/swagger2/swagger2-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "19fslhjqcnk0da1c8sdflnnxjzbbzqb0nbknpgyd45q0psxr6xs7"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-base-compat-batteries"
+        ,ghc-base-compat-batteries)
+       ("ghc-aeson" ,ghc-aeson)
+       ("ghc-cookie" ,ghc-cookie)
+       ("ghc-generics-sop" ,ghc-generics-sop)
+       ("ghc-hashable" ,ghc-hashable)
+       ("ghc-http-media" ,ghc-http-media)
+       ("ghc-insert-ordered-containers"
+        ,ghc-insert-ordered-containers)
+       ("ghc-lens" ,ghc-lens)
+       ("ghc-network" ,ghc-network)
+       ("ghc-scientific" ,ghc-scientific)
+       ("ghc-transformers-compat"
+        ,ghc-transformers-compat)
+       ("ghc-unordered-containers"
+        ,ghc-unordered-containers)
+       ("ghc-uuid-types" ,ghc-uuid-types)
+       ("ghc-vector" ,ghc-vector)))
+    (native-inputs
+     `(("cabal-doctest" ,cabal-doctest)
+       ("hspec-discover" ,hspec-discover)
+       ("ghc-glob" ,ghc-glob)
+       ("ghc-hunit" ,ghc-hunit)
+       ("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-aeson-qq" ,ghc-aeson-qq)
+       ("ghc-doctest" ,ghc-doctest)
+       ("ghc-hspec" ,ghc-hspec)
+       ("ghc-quickcheck-instances" ,ghc-quickcheck-instances)))
+    (arguments
+     `(#:cabal-revision
+       ("1"
+        "1g6jiadrvglrbf0857nzfbnjxmb3lwqamgs47j3qv9k6kfwilzyk")))
+    (home-page
+     "https://github.com/GetShopTV/swagger2")
+    (synopsis "Swagger 2.0 data model")
+    (description
+     "This library is inteded to be used for decoding and encoding Swagger 2.0
+API specifications as well as manipulating them.  The original Swagger 2.0
+specification is available at http://swagger.io/specification/.")
+    (license license:bsd-3)))
