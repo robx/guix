@@ -1952,3 +1952,57 @@ the client.")
 API specifications as well as manipulating them.  The original Swagger 2.0
 specification is available at http://swagger.io/specification/.")
     (license license:bsd-3)))
+
+(define-public ghc-jose
+  (package
+    (name "ghc-jose")
+    (version "0.8.1.0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/jose/jose-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+         "02xg8axy6whbkn0mzg1gjy6b1mhxlmsh1x7vjk1fiawvg9nwzrkl"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-attoparsec" ,ghc-attoparsec)
+       ("ghc-base64-bytestring" ,ghc-base64-bytestring)
+       ("ghc-concise" ,ghc-concise)
+       ("ghc-cryptonite" ,ghc-cryptonite)
+       ("ghc-lens" ,ghc-lens)
+       ("ghc-memory" ,ghc-memory)
+       ("ghc-monad-time" ,ghc-monad-time)
+       ("ghc-semigroups" ,ghc-semigroups)
+       ("ghc-safe" ,ghc-safe)
+       ("ghc-aeson" ,ghc-aeson)
+       ("ghc-unordered-containers"
+        ,ghc-unordered-containers)
+       ("ghc-network-uri" ,ghc-network-uri)
+       ("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-quickcheck-instances"
+        ,ghc-quickcheck-instances)
+       ("ghc-x509" ,ghc-x509)
+       ("ghc-vector" ,ghc-vector)))
+    (native-inputs
+     `(("ghc-hspec" ,ghc-hspec)
+       ("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-hspec" ,ghc-tasty-hspec)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)))
+    (home-page
+     "https://github.com/frasertweedale/hs-jose")
+    (synopsis
+     "Javascript Object Signing and Encryption and JSON Web Token library")
+    (description
+     "An implementation of the Javascript Object Signing and Encryption (JOSE)
+and JSON Web Token (JWT; RFC 7519) formats.
+The JSON Web Signature (JWS; RFC 7515) implementation is complete.
+EdDSA signatures (RFC 8037) are supported (Ed25519 only).
+JWK Thumbprint (RFC 7638) is supported (requires /aeson/ >= 0.10).
+JSON Web Encryption (JWE; RFC 7516) is not yet implemented.
+The __ECDSA implementation is vulnerable to timing attacks__
+and should only be used for verification.")
+    (license license:asl2.0)))
