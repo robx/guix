@@ -89,6 +89,8 @@
 
 (define scron-service-type
   (service-type (name 'scron)
+                (description
+                 "Run the scron job scheduling daemon.")
                 (extensions
                  (list (service-extension shepherd-root-service-type
                                           scron-shepherd-services)))
