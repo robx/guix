@@ -61,8 +61,8 @@
 (define-record-type* <scron-job> scron-job
   make-scron-job
   scron-job?
-  (schedule scron-job-schedule (default "* * * * *"))
-  (command  scron-job-command  (default '())))
+  (schedule scron-job-schedule)
+  (command  scron-job-command))
 
 (define (crontab jobs)
   (apply mixed-text-file "crontab"
