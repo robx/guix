@@ -289,7 +289,7 @@ System Configuration
 Services
 
 * Base Services::               Essential system services.
-* Scheduled Job Execution::     The mcron service.
+* Scheduled Job Execution::     Cron services.
 * Log Rotation::                The rottlog service.
 * Networking Services::         Network setup, SSH daemon, etc.
 * X Window::                    Graphical display.
@@ -13129,6 +13129,104 @@ The mcron package to use.
 This is a list of gexps (@pxref{G-Expressions}), where each gexp
 corresponds to an mcron job specification (@pxref{Syntax, mcron job
 specifications,, mcron, GNU@tie{}mcron}).
+@end table
+@end deftp
+
+
+@cindex scron
+@cindex scheduling jobs
+The @code{(gnu services scron)} module provides an interface to
+scron, a simple daemon to run jobs at scheduled times. scron is
+similar to the traditional Unix @command{cron} daemon;
+the main difference is that it is much simpler.
+
+Jobs are executed as root via the shell with working direction @code{/}.
+Use @code{su(1)} or corresponding Guile functions
+(@pxref{Processes,,, guile, GNU Guile Reference Manual}).
+
+The example below defines an operating system that runs the
+@command{updatedb} (@pxref{Invoking updatedb,,, find, Finding Files})
+and the @command{guix gc} commands (@pxref{Invoking guix gc}) daily, as
+well as the @command{mkid} command on behalf of an unprivileged user
+(@pxref{mkid invocation,,, idutils, ID Database Utilities}).
+
+@lisp
+(use-modules (guix) (gnu) (gnu services scron))
+(use-package-modules base idutils)
+
+(define updatedb-job
+  ;; Run 'updatedb' at 3AM every day.  Here we write the
+  ;; job's action as a Scheme procedure.
+  (let*
+    ((exp #~(begin
+              (execl (string-append #$findutils "/bin/updatedb")
+                     "updatedb"
+                     "--prunepaths=/tmp /var/tmp /gnu/store")))
+     (script (program-file "updatedb-job" exp))
+    (scron-job
+      (schedule "0 3 * * *")
+      (command  script))))
+
+(define garbage-collector-job
+  ;; Collect garbage 5 minutes after midnight every day.
+  ;; The job's action is a shell command.
+  (scron-job
+    (schedule "5 0 * * *")
+    (command  "guix gc -F 1G")))
+
+(define idutils-job
+  ;; Update the index database as user "charlie" at 12:15PM
+  ;; and 19:15PM.  This runs from the user's home directory.
+  (let*
+    ((cmd      #~(string-append #$idutils "/bin/mkid src"))
+     (cmd-su   #~(string-append "su -c '" #$cmd "' charlie")))
+    (scron-job
+      (schedule "15 12,19 * * *")
+      (command  cmd-su))))
+
+(operating-system
+  ;; @dots{}
+  (services (cons (service scron-service-type
+                           (scron-configuration
+                            (jobs (list garbage-collector-job
+                                        updatedb-job
+                                        idutils-job))))
+                  %base-services)))
+@end lisp
+
+@defvr {Scheme Variable} scron-service-type
+
+This is the type of the @code{scron} service, whose value is an
+@code{scron-configuration} object.
+
+This service type can be the target of a service extension that provides
+it additional job specifications (@pxref{Service Composition}).  In
+other words, it is possible to define services that provide additional
+mcron jobs to run.
+@end defvr
+
+@deftp {Data Type} scron-configuration
+Data type representing the configuration of scron.
+
+@table @asis
+@item @code{scron} (default: @var{scron})
+The scron package to use.
+
+@item @code{jobs}
+This is a list of scron jobs.
+@end table
+@end deftp
+
+@deftp {Data Type} scron-job
+Data type representing an scron job.
+
+@table @asis
+@item @code{schedule}
+The job schedule, in Vixie cron syntax. See the @code{scron(1)}
+man page for more information.
+
+@item @code{command}
+The shell command to run, as a value that lowers to a string.
 @end table
 @end deftp
 
