@@ -28,6 +28,7 @@
   #:use-module (gnu services dbus)
   #:use-module (gnu services avahi)
   #:use-module (gnu services mcron)
+  #:use-module (gnu services scron)
   #:use-module (gnu services shepherd)
   #:use-module (gnu services networking)
   #:use-module (gnu packages base)
@@ -48,6 +49,7 @@
             %test-halt
             %test-cleanup
             %test-mcron
+            %test-scron
             %test-nss-mdns))
 
 (define %simple-os
@@ -734,6 +736,90 @@ non-ASCII names from /tmp.")
    (name "mcron")
    (description "Make sure the mcron service works as advertised.")
    (value (run-mcron-test name))))
+
+
+;;;
+;;; Scron.
+;;;
+
+(define %scron-os
+  ;; System with an scron service, with one scron job for "root" and one scron
+  ;; job for an unprivileged user.
+  (let ((job1
+         (scron-job
+          (schedule "* * * * *")
+          (command  "(id -u; id -g) > witness")))
+        (job2
+         (scron-job
+          (schedule "* * * * *")
+          (command  "su -c '(id -u; id -g) > ~/witness' alice")))
+        (job3
+         (scron-job
+          (schedule "* * * * *")
+          (command  "touch witness-touch"))))
+    (simple-operating-system
+     (service scron-service-type
+              (scron-configuration (jobs (list job1 job2 job3)))))))
+
+(define (run-scron-test name)
+  (define os
+    (marionette-operating-system
+     %scron-os
+     #:imported-modules '((gnu services herd)
+                          (guix combinators))))
+
+  (define test
+    (with-imported-modules '((gnu build marionette))
+      #~(begin
+          (use-modules (gnu build marionette)
+                       (srfi srfi-64)
+                       (ice-9 match))
+
+          (define marionette
+            (make-marionette (list #$(virtual-machine os))))
+
+          (mkdir #$output)
+          (chdir #$output)
+
+          (test-begin "scron")
+
+          (test-assert "service running"
+            (marionette-eval
+             '(begin
+                (use-modules (gnu services herd))
+                (start-service 'scron))
+             marionette))
+
+          ;; Make sure root's scron job runs, has its cwd set to "/", and
+          ;; runs with the right UID/GID.
+          (test-equal "root's job"
+            '(0 0)
+            (wait-for-file "/witness" marionette))
+
+          ;; Likewise for Alice's job.  We cannot know what its GID is since
+          ;; it's chosen by 'groupadd', but it's strictly positive.
+          (test-assert "alice's job"
+            (match (wait-for-file "/home/alice/witness" marionette)
+              ((1000 gid)
+               (>= gid 100))))
+
+          ;; Last, the job that uses a command; allows us to test whether
+          ;; $PATH is sane.
+          (test-equal "root's job with command"
+            ""
+            (wait-for-file "/witness-touch" marionette
+                           #:read '(@ (ice-9 rdelim) read-string)))
+
+          (test-end)
+          (exit (= (test-runner-fail-count (test-runner-current)) 0)))))
+
+  (gexp->derivation name test))
+
+(define %test-scron
+  (system-test
+   (name "scron")
+   (description "Make sure the scron service works as advertised.")
+   (value (run-scron-test name))))
 
 
 ;;;
