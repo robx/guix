@@ -29,7 +29,6 @@
 
   #:export(build-versions.dat
            elm-package-and-version
-           elm-unpack
            elm-package-build
            elm-application-build))
 
@@ -140,23 +139,6 @@ modules."
           #f
           (apply throw args)))))
 
-(define* (elm-unpack pkg dest)
-  "Unpack an elm source archive. DEST is relative."
-  (mkdir "elm-unpack")
-  (with-directory-excursion "elm-unpack"
-    (invoke "tar" "xzf" pkg)
-    (let* ((entries (scandir "." (lambda (f) (> (string-length f) 2))))
-           (entry (car entries))
-           (n-v (elm-package-and-version entry))
-           (n (car n-v))
-           (v (cdr n-v)))
-      (mkdir-p (string-append "../" dest "/" n))
-      (rename-file entry (string-append "../" dest "/" n "/" v))
-      (format #t "unpacked ~a/~a~%" n v)))
-
-  (delete-file-recursively "elm-unpack")
-  #t)
-
 (define (elm-package-build source inputs output)
   (let ((tar (assoc-ref inputs "tar"))
         (gzip (assoc-ref inputs "gzip")))
@@ -182,12 +164,10 @@ modules."
     (for-each
       (match-lambda
         ((n . pkg)
-         (when (and (string-prefix? "elm-" n) ; TODO: check elm.json
-                    (not (equal? "elm-compiler" n)))
-           (match (elm-package-and-version pkg)
-             ((name . version)
-              (copy-recursively pkg
-                                (string-append deps "/" name "/" version)))))))
+         (match (elm-package-and-version pkg)
+           ((name . version)
+            (copy-recursively pkg
+                              (string-append deps "/" name "/" version))))))
       inputs)
     (format #t "generating versions.dat~%")
     (with-directory-excursion deps (build-versions.dat))
