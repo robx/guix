@@ -226,6 +226,7 @@ Interface} specification.")
               (method url-fetch)
               (uri (string-append "https://nginx.org/download/nginx-"
                                   version ".tar.gz"))
+              (patches (search-patches "nginx-etag-1.15.4.patch"))
               (sha256
                (base32
                 "0nwn4md8sxhks2j77qq1nvk5pfz3yykfhh2b507b6l2idp7kxllp"))))
@@ -242,6 +243,11 @@ Interface} specification.")
              (substitute* "auto/feature"
                (("/bin/sh") (which "sh")))
              #t))
+         (add-before 'configure 'subst-store-dir
+           (lambda _
+             (substitute* "src/http/ngx_http_core_module.c"
+               (("@nixStoreDir@") "/guix/store")
+               (("@nixStoreDirLen@") "11"))))
          (replace 'configure
            ;; The configure script is hand-written, not from GNU autotools.
            (lambda* (#:key outputs #:allow-other-keys)
@@ -269,6 +275,8 @@ Interface} specification.")
                                             (_                "UNSUPPORTED"))))
                              (string-append "--crossbuild="
                                             system ":" release ":" machine)))))
+               (setenv "nixStoreDir" "/guix/store")
+               (setenv "nixStoreDirLen" "11")
                (setenv "CC" "gcc")
                (format #t "environment variable `CC' set to `gcc'~%")
                (format #t "configure flags: ~s~%" flags)
